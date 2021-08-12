@@ -1,6 +1,6 @@
 <ng-template appPlaceholder></ng-template>
 <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <div>
         <label for="email">E-Mail</label>
         <input

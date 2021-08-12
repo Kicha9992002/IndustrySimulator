@@ -17,7 +17,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoading = false;
   isLoginMode= true;
   auth$: Subscription;
-  error: string = null;
   @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
 
   constructor(private authService: AuthService, 
@@ -43,13 +42,11 @@ export class AuthComponent implements OnInit, OnDestroy {
         .login(this.authForm.get('email').value, this.authForm.get('password').value)
         .subscribe(
           () => {
-            this.error = null;
             this.toastr.success('Login successfull');
             this.isLoading = false;
             this.router.navigate(['/']);
           },
           errorMessage => {
-            this.error = errorMessage;
             this.toastr.error(errorMessage, 'Login error');
             this.isLoading = false;
           }
@@ -59,13 +56,11 @@ export class AuthComponent implements OnInit, OnDestroy {
         .signUp(this.authForm.get('email').value, this.authForm.get('password').value)
         .subscribe(
           () => {
-            this.error = null;
             this.toastr.success('Sign up successfull');
             this.isLoading = false;
             this.router.navigate(['/']);
           },
           errorMessage => {
-            this.error = errorMessage;
             this.toastr.error(errorMessage, 'Login error');
             this.isLoading = false;
           }
