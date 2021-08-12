@@ -2,9 +2,9 @@ import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } fro
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AlertComponent } from '../shared/alert/alert.component';
-import { PlaceholderDirective } from '../shared/placeholder.directive';
+import { ToastrService } from 'ngx-toastr';
 
+import { PlaceholderDirective } from '../shared/placeholder.directive';
 import { AuthResponseData, AuthService } from './auth.service';
 
 @Component({
@@ -20,7 +20,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
 
-  constructor(private authService: AuthService, private router: Router, private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private authService: AuthService, 
+              private router: Router, 
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -43,14 +45,15 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     this.auth$.subscribe(
-      responseData => {
+      () => {
         this.error = null;
+        this.toastr.success('Login successfull');
         this.isLoading = false;
         this.router.navigate(['/']);
       },
       errorMessage => {
         this.error = errorMessage;
-        AlertComponent.showErrorAlert(errorMessage, this.componentFactoryResolver, this.alertHost);
+        this.toastr.error(errorMessage, 'Login error');
         this.isLoading = false;
       }
     );
