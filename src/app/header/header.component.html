@@ -1,13 +1,30 @@
-<nav>
-    <div>
-        <a routerLink="/">IndustrySimulator</a>
-        <div [class.collapse]="isNavCollapsed" (window:resize)="isNavCollapsed = true">
-            <ul>
-                <li routerLinkActive="active">
-                    <a routerLink="/profile">Profile</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">Industry Simulator</a>
+        <div class="navbar-header">
+            <button 
+                class="navbar-toggler" 
+                type="button" 
+                (click)="isNavCollapsed = !isNavCollapsed">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse" [class.collapse]="isNavCollapsed" (window:resize)="isNavCollapsed = true">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/profile">Profile</a>
                 </li>
-                <li routerLinkActive="active">
-                    <a (click)="onLogout()">Logout</a>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/admin">Admin</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <li *ngIf="isAuthenticated">
+                    <a class="nav-link" style="cursor: pointer;" (click)="onLogout()">Logout</a>
+                </li>
+                <li class="dropdown" *ngIf="!isAuthenticated">
                 </li>
             </ul>
         </div>
