@@ -1,0 +1,15 @@
+<nav>
+    <div>
+        <a routerLink="/">IndustrySimulator</a>
+        <div [class.collapse]="isNavCollapsed" (window:resize)="isNavCollapsed = true">
+            <ul>
+                <li routerLinkActive="active">
+                    <a routerLink="/profile">Profile</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a (click)="onLogout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

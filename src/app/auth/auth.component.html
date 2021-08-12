@@ -1,0 +1,29 @@
+<ng-template appPlaceholder></ng-template>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="email">E-Mail</label>
+        <input
+            type="text"
+            id="email"
+            formControlName="email"
+            #email>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            formControlName="password"
+            #password>
+    </div>
+    <div>
+        <button
+            type="submit"
+            [disabled]="!authForm.valid">{{isLoginMode ? 'Login' : 'Sign up'}}</button>
+        <button
+            type="button"
+            (click)="onSwitchMode()"
+            >Switch to {{ isLoginMode ? 'Sign up' : 'Login' }}</button>
+    </div>
+</form>
