@@ -1,0 +1,19 @@
+<div>
+    <app-loading-spinner *ngIf="changeEmailIsLoading"></app-loading-spinner>
+    <form [formGroup]="changeEmailForm" (ngSubmit)="changeEmail()" *ngIf="!changeEmailIsLoading">
+        <div>
+            <label for="email">E-Mail</label>
+            <input
+                type="text"
+                id="email"
+                formControlName="email"
+                #email>
+        </div>
+        <div>
+            <button
+                type="submit"
+                [disabled]="!changeEmailForm.valid"
+                >change</button>
+        </div>
+    </form>
+</div>

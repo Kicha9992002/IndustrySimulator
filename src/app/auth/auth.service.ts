@@ -92,6 +92,29 @@ export class AuthService {
     }, expirationDuration);
   }
 
+  changeEmail(newEmail: string) {
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+
+    return this.http
+      .post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:update?key=' + environment.firebaseAPIKey,
+        JSON.stringify({
+          idToken: userData._token,
+          email: newEmail,
+          returnSecureToken: true
+        })
+      ).pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+        })
+      );
+  }
+
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
@@ -118,6 +141,11 @@ export class AuthService {
       case 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.':
         errorMessage = 'Too many login attempts. Try again later';
         break;
+      case 'USER_DISABLED':
+        errorMessage = 'Account locked';
+        break;
+      case 'CREDENTIAL_TOO_OLD_LOGIN_AGAIN':
+        errorMessage = 'Session expired. Please login again';
     }
     return throwError(errorMessage);
   }
