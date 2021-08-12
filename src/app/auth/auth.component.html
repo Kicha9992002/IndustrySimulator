@@ -1,29 +1,55 @@
-<ng-template appPlaceholder></ng-template>
-<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
-    <div>
-        <label for="email">E-Mail</label>
-        <input
-            type="text"
-            id="email"
-            formControlName="email"
-            #email>
+<div class="col-xs-12 col-md-6">
+    <div *ngIf="isLoading" style="text-align: center;">
+        <app-loading-spinner></app-loading-spinner>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input
-            type="password"
-            id="password"
-            formControlName="password"
-            #password>
-    </div>
-    <div>
-        <button
-            type="submit"
-            [disabled]="!authForm.valid">{{isLoginMode ? 'Login' : 'Sign up'}}</button>
-        <button
-            type="button"
-            (click)="onSwitchMode()"
-            >Switch to {{ isLoginMode ? 'Sign up' : 'Login' }}</button>
-    </div>
-</form>
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+        <div class="form-floating mb-3">
+            <input
+                type="text"
+                id="email"
+                formControlName="email"
+                #email
+                class="form-control"
+                [class.is-invalid]="authForm.get('email').invalid && (authForm.get('email').dirty || authForm.get('email').touched)">
+            <label for="email" class="form-label">E-Mail</label>
+            <span
+                *ngIf="authForm.get('email').invalid && (authForm.get('email').dirty || authForm.get('email').touched) && authForm.get('password').errors.required"
+                class="invalid-tooltip"
+                >E-Mail is required</span>
+        </div>
+        <div class="form-floating mb-3">
+            <input
+                type="password"
+                id="password"
+                formControlName="password"
+                #password
+                class="form-control"
+                [class.is-invalid]="authForm.get('password').invalid && (authForm.get('password').dirty || authForm.get('password').touched)">
+            <label for="password" class="form-label">Password</label>
+            <span
+                *ngIf="authForm.get('password').invalid && (authForm.get('password').dirty || authForm.get('password').touched) && authForm.get('password').errors.required"
+                class="invalid-tooltip"
+                >Password is required</span>
+            <span
+                *ngIf="authForm.get('password').invalid && (authForm.get('password').dirty || authForm.get('password').touched) && authForm.get('password').errors.minlength"
+                class="invalid-tooltip"
+                >Your Password must be at least 6 characters long.</span>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!authForm.valid"
+                >{{isLoginMode ? 'Login' : 'Sign up'}}</button>
+            </div>
+            <div class="col-6">
+                <button
+                type="button"
+                (click)="onSwitchMode()"
+                class="btn btn-primary"
+                >Switch to {{ isLoginMode ? 'Sign up' : 'Login' }}</button>
+            </div>
+        </div>
+    </form>
+</div>

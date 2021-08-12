@@ -1,19 +1,30 @@
-<div>
-    <app-loading-spinner *ngIf="changeEmailIsLoading"></app-loading-spinner>
+<div class="col-xs-12 col-md-6">
+    <div *ngIf="changeEmailIsLoading" style="text-align: center;">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
     <form [formGroup]="changeEmailForm" (ngSubmit)="changeEmail()" *ngIf="!changeEmailIsLoading">
-        <div>
-            <label for="email">E-Mail</label>
-            <input
-                type="text"
-                id="email"
-                formControlName="email"
-                #email>
-        </div>
-        <div>
-            <button
-                type="submit"
-                [disabled]="!changeEmailForm.valid"
-                >change</button>
+        <div class="row">
+            <div class="form-floating col-sm-9">
+                <input
+                    type="text"
+                    id="email"
+                    formControlName="email"
+                    #email
+                    class="form-control"
+                    [class.is-invalid]="changeEmailForm.get('email').invalid && (changeEmailForm.get('email').dirty || changeEmailForm.get('email').touched)">
+                <label for="email">E-Mail</label>
+                <span
+                    *ngIf="changeEmailForm.get('email').invalid && (changeEmailForm.get('email').dirty || changeEmailForm.get('email').touched) && changeEmailForm.get('email').errors.required"
+                    class="invalid-tooltip"
+                    >E-Mail is required</span>
+            </div>
+            <div class="col-sm-3">
+                <button
+                    type="submit"
+                    [disabled]="!changeEmailForm.valid"
+                    class="btn btn-primary"
+                    >change</button>
+            </div>
         </div>
     </form>
 </div>
