@@ -1,11 +1,11 @@
-import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { PlaceholderDirective } from '../shared/placeholder.directive';
-import { AuthResponseData, AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +16,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   authForm: FormGroup;
   isLoading = false;
   isLoginMode= true;
-  auth$: Observable<AuthResponseData>;
+  auth$: Subscription;
   error: string = null;
   @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
 
@@ -39,24 +39,38 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     if (this.isLoginMode) {
-      this.auth$ = this.authService.login(this.authForm.get('email').value, this.authForm.get('password').value);
+      this.auth$ = this.authService
+        .login(this.authForm.get('email').value, this.authForm.get('password').value)
+        .subscribe(
+          () => {
+            this.error = null;
+            this.toastr.success('Login successfull');
+            this.isLoading = false;
+            this.router.navigate(['/']);
+          },
+          errorMessage => {
+            this.error = errorMessage;
+            this.toastr.error(errorMessage, 'Login error');
+            this.isLoading = false;
+          }
+        );
     } else {
-      this.auth$ = this.authService.signUp(this.authForm.get('email').value, this.authForm.get('password').value);
+      this.auth$ = this.authService
+        .signUp(this.authForm.get('email').value, this.authForm.get('password').value)
+        .subscribe(
+          () => {
+            this.error = null;
+            this.toastr.success('Sign up successfull');
+            this.isLoading = false;
+            this.router.navigate(['/']);
+          },
+          errorMessage => {
+            this.error = errorMessage;
+            this.toastr.error(errorMessage, 'Login error');
+            this.isLoading = false;
+          }
+        );
     }
-
-    this.auth$.subscribe(
-      () => {
-        this.error = null;
-        this.toastr.success('Login successfull');
-        this.isLoading = false;
-        this.router.navigate(['/']);
-      },
-      errorMessage => {
-        this.error = errorMessage;
-        this.toastr.error(errorMessage, 'Login error');
-        this.isLoading = false;
-      }
-    );
   }
 
   onSwitchMode() {
@@ -64,6 +78,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.auth$.unsubscribe();
   }
 
 }
