@@ -50,7 +50,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.changeEmail$.unsubscribe();
+    this.changeEmail$?.unsubscribe();
   }
 
 }
