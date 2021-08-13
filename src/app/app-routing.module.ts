@@ -20,6 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'stores',
+    loadChildren: () => import('./stores/stores.module').then(module => module.StoresModule),
+    canActivate: [AuthGuardService]
+  },
+  {
     path: 'account',
     loadChildren: () => import('./account/account.module').then(module => module.AccountModule),
     canActivate: [AuthGuardService]
