@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
-import { PlaceholderDirective } from '../shared/placeholder.directive';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -17,7 +16,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoading = false;
   isLoginMode= true;
   auth$: Subscription;
-  @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
 
   constructor(private authService: AuthService, 
               private router: Router, 
