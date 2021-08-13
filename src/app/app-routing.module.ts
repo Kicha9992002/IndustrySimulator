@@ -10,6 +10,16 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'sales',
+    loadChildren: () => import('./sales/sales.module').then(module => module.SalesModule),
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'purch',
+    loadChildren: () => import('./purch/purch.module').then(module => module.PurchModule),
+    canActivate: [AuthGuardService]
+  },
+  {
     path: 'account',
     loadChildren: () => import('./account/account.module').then(module => module.AccountModule),
     canActivate: [AuthGuardService]

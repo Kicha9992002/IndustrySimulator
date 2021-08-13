@@ -16,14 +16,20 @@
                     <a class="nav-link" routerLink="/manufacturing">Manufacturing</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
+                    <a class="nav-link" routerLink="/sales">Sales</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
+                    <a class="nav-link" routerLink="/purch">Purch</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
                     <a class="nav-link" routerLink="/account">Account</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="/settings">Settings</a>
                 </li>
-            </ul>
-
-            <ul class="navbar-nav ms-auto">
                 <li *ngIf="isAuthenticated">
                     <a class="nav-link" style="cursor: pointer;" (click)="onLogout()">Logout</a>
                 </li>
