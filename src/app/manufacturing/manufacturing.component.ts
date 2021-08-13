@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-manufacturing',
   templateUrl: './manufacturing.component.html',
-  styleUrls: ['./manufacturing.component.css']
+  styles: ['']
 })
 export class ManufacturingComponent implements OnInit {
 

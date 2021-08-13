@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-purch',
   templateUrl: './purch.component.html',
-  styleUrls: ['./purch.component.css']
+  styles: ['']
 })
 export class PurchComponent implements OnInit {
 
