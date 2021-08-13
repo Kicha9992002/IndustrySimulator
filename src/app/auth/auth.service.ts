@@ -115,6 +115,29 @@ export class AuthService {
       );
   }
 
+  changePassword(newPassword: string) {
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+
+    return this.http
+      .post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:update?key=' + environment.firebaseAPIKey,
+        JSON.stringify({
+          idToken: userData._token,
+          password: newPassword,
+          returnSecureToken: true
+        })
+      ).pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+        })
+      );
+  }
+
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);

@@ -16,6 +16,9 @@ export class AccountComponent implements OnInit, OnDestroy {
   changeEmailForm: FormGroup;
   changeEmailIsLoading = false;
   changeEmail$: Subscription;
+  changePasswordForm: FormGroup;
+  changePasswordIsLoading = false;
+  changePassword$: Subscription;
 
   constructor(private authService: AuthService,
               private toastr: ToastrService) { }
@@ -26,7 +29,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
 
     this.changeEmailForm = new FormGroup({
-      'email': new FormControl(this.user.email, [Validators.required, Validators.email])
+      'email': new FormControl("", [Validators.required, Validators.email])
+    });
+    this.changePasswordForm = new FormGroup({
+      'password': new FormControl("", [Validators.required, Validators.minLength(6)])
     });
   }
 
@@ -46,11 +52,31 @@ export class AccountComponent implements OnInit, OnDestroy {
           this.toastr.error(errorMessage, 'E-Mail change error');
           this.changeEmailIsLoading = false;
         }
-      )
+      );
+  }
+
+  changePassword() {
+    if (!this.changePasswordForm.valid) {
+      return;
+    }
+
+    this.changePasswordIsLoading = true;
+    this.changePassword$ = this.authService.changePassword(this.changePasswordForm.get('password').value)
+      .subscribe(
+        () => {
+          this.toastr.success('Password changed successfully');
+          this.changePasswordIsLoading = false;
+        },
+        errorMessage => {
+          this.toastr.error(errorMessage, 'Password change error');
+          this.changePasswordIsLoading = false;
+        }
+      );
   }
 
   ngOnDestroy() {
     this.changeEmail$?.unsubscribe();
+    this.changePassword$?.unsubscribe();
   }
 
 }
