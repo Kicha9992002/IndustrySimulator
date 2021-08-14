@@ -5,10 +5,9 @@
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Size: {{factory.size}} ha</li>
-        <li class="list-group-item">Location: {{factory.location}}</li>
-        <li class="list-group-item">Employees: {{factory.employees.length}}</li>
-        <li class="list-group-item">Output: 0 kg/month</li>
-        <li class="list-group-item">Cost: 0 €/month</li>
+        <li class="list-group-item">Employees: {{factory.employees.length}} / {{maxEmployees}}</li>
+        <li class="list-group-item">Output: {{output}} kg/month</li>
+        <li class="list-group-item">Cost: {{cost}} €/month</li>
     </ul>
     <div class="card-body text-center">
         <button class="btn btn-primary">Details</button>
