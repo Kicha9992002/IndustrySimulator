@@ -10,6 +10,9 @@
         <li class="list-group-item">Cost: {{cost}} €/month</li>
     </ul>
     <div class="card-body text-center">
-        <button class="btn btn-primary">Details</button>
+        <button
+            class="btn btn-primary"
+            [routerLink]="[factory.id]"
+            >Details</button>
     </div>
 </div>

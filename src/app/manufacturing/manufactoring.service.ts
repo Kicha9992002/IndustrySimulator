@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Factory, Location, PropertyType } from '../shared/factory.model';
 
@@ -25,6 +26,15 @@ export class ManufacturingService {
   setFactories(factories: Factory[]) {
     this.factories = factories;
     this.factoriesChanged.next(this.factories.slice());
+  }
+
+  getFactory(id: number) {
+    return this.factoriesChanged
+      .pipe(
+        map(factories => {
+          return factories[id];
+        })
+      );
   }
 
   getFactoryMaxEmployees(size: number) {
