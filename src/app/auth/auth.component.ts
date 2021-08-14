@@ -8,8 +8,7 @@ import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styles: ['']
+  templateUrl: './auth.component.html'
 })
 export class AuthComponent implements OnInit, OnDestroy {
   authForm: FormGroup;

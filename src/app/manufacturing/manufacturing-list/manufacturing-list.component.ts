@@ -5,8 +5,7 @@ import { ManufacturingService } from '../manufactoring.service';
 
 @Component({
   selector: 'app-manufacturing-list',
-  templateUrl: './manufacturing-list.component.html',
-  styles: ['']
+  templateUrl: './manufacturing-list.component.html'
 })
 export class ManufacturingListComponent implements OnInit {
   factories: Factory[];

@@ -8,8 +8,7 @@ import { User } from '../auth/user.model';
 
 @Component({
   selector: 'app-account',
-  templateUrl: './account.component.html',
-  styles: ['']
+  templateUrl: './account.component.html'
 })
 export class AccountComponent implements OnInit, OnDestroy {
   user: User;
