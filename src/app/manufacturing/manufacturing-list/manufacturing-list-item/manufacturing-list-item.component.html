@@ -4,10 +4,10 @@
         <h5 class="card-title">{{factory.name}}</h5>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Size: {{factory.size}} ha</li>
-        <li class="list-group-item">Employees: {{factory.employees.length}} / {{maxEmployees}}</li>
-        <li class="list-group-item">Output: {{output}} kg/month</li>
-        <li class="list-group-item">Cost: {{cost}} €/month</li>
+        <li class="list-group-item tool"><span class="material-icons">area_chart</span> {{factory.size}}</li>
+        <li class="list-group-item"><span class="material-icons">group</span> {{factory.employees.length}} / {{maxEmployees}}</li>
+        <li class="list-group-item"><span class="material-icons">precision_manufacturing</span> {{output}} kg/h</li>
+        <li class="list-group-item"><span class="material-icons">euro</span> {{cost}}/h</li>
     </ul>
     <div class="card-body text-center">
         <button

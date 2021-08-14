@@ -1,5 +1,19 @@
-<div>{{factory.name}}</div>
-<div>Employees: {{factory.employees.length}} / {{maxEmployees}}</div>
-<div>Size: {{factory.size}} ha</div>
-<div>Output: {{output}} kg/month</div>
-<div>Cost: {{cost}} €/month</div>
+<h1>{{factory.name}}</h1>
+<div>
+    <div><span class="material-icons">area_chart</span> {{factory.size}}</div>
+    <button class="btn btn-secondary">
+        <div><span class="material-icons">area_chart</span> +10</div>
+        <div><span class="material-icons">euro</span> 5.000</div>
+    </button>
+</div>
+<div>
+    <div><span class="material-icons">group</span> {{factory.employees.length}} / {{maxEmployees}}</div>
+    <button class="btn btn-secondary">
+        <span class="material-icons">person_add</span>
+    </button>
+    <button class="btn btn-secondary">
+        <span class="material-icons">person_remove</span>
+    </button>
+</div>
+<div><span class="material-icons">precision_manufacturing</span> {{output}}/month</div>
+<div><span class="material-icons">euro</span> {{cost}}/month</div>
