@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
 import { Factory } from '../shared/factory.model';
 
 @Injectable({
@@ -6,16 +8,12 @@ import { Factory } from '../shared/factory.model';
 })
 export class ManufacturingService {
   private factories: Factory[] = [];
+  factoriesChanged = new Subject<Factory[]>();
 
-  constructor() {
-    this.factories.push(
-      new Factory(1, 'Apple orchard', '', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 100, 2, 500),
-      new Factory(1, 'Apple orchard', '', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 100, 2, 500),
-      new Factory(1, 'Apple orchard', '', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 100, 2, 500)
-    );
-  }
+  constructor() { }
 
-  getFactories() {
-    return this.factories.slice();
+  setFactories(factories: Factory[]) {
+    this.factories = factories;
+    this.factoriesChanged.next(this.factories.slice());
   }
 }

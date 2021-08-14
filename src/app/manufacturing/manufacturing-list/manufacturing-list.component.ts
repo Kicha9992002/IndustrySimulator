@@ -14,7 +14,10 @@ export class ManufacturingListComponent implements OnInit {
   constructor(private manufacturingService: ManufacturingService) { }
 
   ngOnInit(): void {
-    this.factories = this.manufacturingService.getFactories();
+    this.manufacturingService.factoriesChanged
+      .subscribe(factories => {
+        this.factories = factories;
+      });
   }
 
 }
