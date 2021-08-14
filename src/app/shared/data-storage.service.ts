@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AuthService } from '../auth/auth.service';
 import { ManufacturingService } from '../manufacturing/manufactoring.service';
 import { Factory } from './factory.model';
 
@@ -11,17 +10,22 @@ import { Factory } from './factory.model';
 })
 export class DataStorageService {
 
-  constructor(private http: HttpClient,
-              private manufacturingService: ManufacturingService
+  constructor(private manufacturingService: ManufacturingService
   ) { }
 
   fetchFactories() {
-    return this.http
-    .get<Factory[]>('https://industrysimulator-default-rtdb.europe-west1.firebasedatabase.app/factories.json')
-    .pipe(
-      tap(factories => {
+    let factories = [
+      new Factory(0, 'Apple orchard', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 10, 'Germany'),
+      new Factory(1, 'Apple orchard', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 10, 'Germany'),
+      new Factory(2, 'Apple orchard', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 10, 'Germany')
+    ];
+
+    return of(factories)
+      .pipe(
+        tap(factories => {
           this.manufacturingService.setFactories(factories);
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 }

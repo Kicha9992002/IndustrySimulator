@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { Factory } from '../shared/factory.model';
 
@@ -8,7 +8,7 @@ import { Factory } from '../shared/factory.model';
 })
 export class ManufacturingService {
   private factories: Factory[] = [];
-  factoriesChanged = new Subject<Factory[]>();
+  factoriesChanged = new BehaviorSubject<Factory[]>([]);
 
   constructor() { }
 
