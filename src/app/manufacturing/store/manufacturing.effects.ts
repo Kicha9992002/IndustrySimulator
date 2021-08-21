@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { debounceTime, map, tap, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromApp from '../../store/app.reducer';
@@ -12,12 +12,11 @@ export class ManufacturingEffects {
         this.actions$.pipe(
             ofType(ManufacturingActions.fetchFactories),
             map(() => {
-                let factories = JSON.parse(localStorage.getItem('factories'));
-                if (factories) {
-                    return ManufacturingActions.setFactories({factories});
-                } else {
-                    return {type: 'DUMMY'};
-                }
+                return JSON.parse(localStorage.getItem('factories'));
+            }),
+            filter(factories => factories),
+            map(factories => {
+                return ManufacturingActions.setFactories({factories});
             })
         )
     );
