@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+
 import { Factory } from 'src/app/shared/factory.model';
 import { ManufacturingService } from '../manufactoring.service';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-manufacturing-details',
@@ -13,16 +16,23 @@ export class ManufacturingDetailsComponent implements OnInit {
   output: number;
   cost: number;
   maxEmployees: number;
+  id: number;
 
   constructor(private manufacturingService: ManufacturingService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
     this.route.params
       .pipe(
         switchMap(params => {
-          return this.manufacturingService.getFactory(params['id']);
+          this.id = params['id'];
+          return this.store.select('manufacturing');
+        }),
+        map(manufacturingState => {
+          return manufacturingState.factories.find((factories, index) => {
+            return index === this.id;
+          });
         })
       ).subscribe(factory => {
         this.factory = factory;

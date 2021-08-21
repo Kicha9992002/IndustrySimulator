@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Factory, Location, PropertyType } from '../shared/factory.model';
 
@@ -8,8 +6,6 @@ import { Factory, Location, PropertyType } from '../shared/factory.model';
   providedIn: 'root'
 })
 export class ManufacturingService {
-  private factories: Factory[] = [];
-  factoriesChanged = new BehaviorSubject<Factory[]>([]);
   private locationModifiers: {location: Location, outputModifier: number, employeeCostModifier: number, rentCostModifier: number, ownerCostModifier: number}[] = [
     {location: Location.Germany, outputModifier: 1.2, employeeCostModifier: 1.3, rentCostModifier: 13, ownerCostModifier: 6},
     {location: Location.France, outputModifier: 1, employeeCostModifier: 1.1, rentCostModifier: 11, ownerCostModifier: 5}
@@ -22,20 +18,6 @@ export class ManufacturingService {
   ];
 
   constructor() { }
-
-  setFactories(factories: Factory[]) {
-    this.factories = factories;
-    this.factoriesChanged.next(this.factories.slice());
-  }
-
-  getFactory(id: number) {
-    return this.factoriesChanged
-      .pipe(
-        map(factories => {
-          return factories[id];
-        })
-      );
-  }
 
   getFactoryMaxEmployees(size: number) {
     let maxEmployees = 0;
