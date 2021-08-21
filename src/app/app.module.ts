@@ -15,18 +15,22 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import * as fromApp from './store/app.reducer';
 import { environment } from 'src/environments/environment';
 import { ManufacturingEffects } from './manufacturing/store/manufacturing.effects';
+import { MoneyComponent } from './header/money/money.component';
+import { MoneyEffects } from './header/money/store/money.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    MoneyComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([
-      ManufacturingEffects
+      ManufacturingEffects,
+      MoneyEffects
     ]),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot(),
