@@ -7,7 +7,7 @@ export interface State {
 }
 
 const initialState: State = {
-    money: 0
+    money: 20000
 };
 
 const _moneyReducer = createReducer(
