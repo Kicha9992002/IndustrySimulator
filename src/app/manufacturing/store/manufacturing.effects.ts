@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
@@ -14,7 +13,11 @@ export class ManufacturingEffects {
             ofType(ManufacturingActions.fetchFactories),
             map(() => {
                 let factories = JSON.parse(localStorage.getItem('factories'));
-                return ManufacturingActions.setFactories({factories});
+                if (factories) {
+                    return ManufacturingActions.setFactories({factories});
+                } else {
+                    return {type: 'DUMMY'};
+                }
             })
         )
     );

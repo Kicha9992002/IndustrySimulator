@@ -12,7 +12,7 @@ import * as fromApp from '../../store/app.reducer';
 })
 export class ManufacturingListComponent implements OnInit, OnDestroy {
   factories: Factory[];
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
