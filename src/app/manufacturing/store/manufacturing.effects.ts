@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromApp from '../../store/app.reducer';
@@ -26,11 +26,23 @@ export class ManufacturingEffects {
         this.actions$.pipe(
             ofType(ManufacturingActions.storeFactories),
             withLatestFrom(this.store.select('manufacturing')),
-            tap(factories => {
-                localStorage.setItem('factories', JSON.stringify(factories));
+            tap(([action, state]) => {
+                localStorage.setItem('factories', JSON.stringify(state.factories));
             })
         )
         , {dispatch: false}
+    );
+
+    autoSaveFactories$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(
+                ManufacturingActions.addFactory,
+                ManufacturingActions.updateFactory,
+                ManufacturingActions.deleteFactory,
+            ),
+            debounceTime(500),
+            map(() => ManufacturingActions.storeFactories())
+        )
     );
 
     constructor(private actions$: Actions,
