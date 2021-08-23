@@ -5,9 +5,20 @@ import { Store } from '@ngrx/store';
 
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from './manufacturing.actions';
+import * as MoneyActions from '../../header/money/store/money.actions';
 
 @Injectable()
 export class ManufacturingEffects {
+
+    addFactorySize$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MoneyActions.payAddFactorySize),
+            map(props => {
+                return ManufacturingActions.addFactorySizeSuccess({size: props.size, index: props.index});
+            })
+        )
+    );
+
     fetchFactories$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ManufacturingActions.fetchFactories),
@@ -36,7 +47,7 @@ export class ManufacturingEffects {
         this.actions$.pipe(
             ofType(
                 ManufacturingActions.addFactory,
-                ManufacturingActions.updateFactory,
+                ManufacturingActions.addFactorySizeSuccess,
                 ManufacturingActions.deleteFactory,
             ),
             debounceTime(500),

@@ -46,6 +46,9 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  addSize(size: number = 10, cost: number = 5000) {
+    this.store.dispatch(ManufacturingActions.addFactorySizeStart({size, index: this.id, cost}));    
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

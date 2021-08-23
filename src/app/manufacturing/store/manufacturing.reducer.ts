@@ -33,11 +33,11 @@ const _manufacturingReducer = createReducer(
     ),
 
     on(
-        ManufacturingActions.updateFactory,
+        ManufacturingActions.addFactorySizeSuccess,
         (state, action) => ({
             ...state,
             factories: state.factories.map(
-                (factory, index) => index === action.index ? {...action.factory} : factory
+                (factory, index) => index == action.index ? {...factory, size: factory.size + action.size} : factory
             )
         })
     ),

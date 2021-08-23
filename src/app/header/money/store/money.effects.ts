@@ -6,10 +6,29 @@ import { interval } from 'rxjs';
 
 import * as fromApp from '../../../store/app.reducer';
 import * as MoneyActions from './money.actions';
+import * as ManufacturingActions from '../../../manufacturing/store/manufacturing.actions';
 import { ManufacturingService } from 'src/app/manufacturing/manufactoring.service';
 
 @Injectable()
 export class MoneyEffects {
+    addFactorySize$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.addFactorySizeStart),
+            map(props => {
+                return MoneyActions.payAddFactorySize({size: props.size, index: props.index, cost: props.cost});
+            })
+        )
+    );
+
+    payAddFactorySize$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MoneyActions.payAddFactorySize),
+            map(props => {
+                return MoneyActions.subtractMoney({money: props.cost});
+            })
+        )
+    );
+
     incomeMoney$ = createEffect(() =>
         interval(5000).pipe(
             withLatestFrom(this.store.select('manufacturing')),

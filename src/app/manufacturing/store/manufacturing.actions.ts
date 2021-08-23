@@ -16,10 +16,19 @@ export const addFactory = createAction(
     }>()
 );
 
-export const updateFactory = createAction(
-    '[Manufacturing] Update Factory',
+export const addFactorySizeStart = createAction(
+    '[Manufacturing] Add Factory Size Start',
     props<{
-        factory: Factory,
+        size: number,
+        index: number,
+        cost: number
+    }>()
+);
+
+export const addFactorySizeSuccess = createAction(
+    '[Manufacturing] Add Factory Size Success',
+    props<{
+        size: number,
         index: number
     }>()
 );
