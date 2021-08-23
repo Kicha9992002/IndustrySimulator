@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { debounceTime, filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from './manufacturing.actions';
@@ -9,12 +10,23 @@ import * as MoneyActions from '../../header/money/store/money.actions';
 
 @Injectable()
 export class ManufacturingEffects {
-
-    addFactorySize$ = createEffect(() =>
+    payAddFactorySizeSuccess$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(MoneyActions.payAddFactorySize),
-            map(props => {
-                return ManufacturingActions.addFactorySizeSuccess({size: props.size, index: props.index});
+            ofType(MoneyActions.payAddFactorySizeSuccess),
+            withLatestFrom(this.store.select('manufacturing')),
+            map(([action, state]) => {
+                this.toastr.success('Fabrikgröße erweitert');
+                return ManufacturingActions.addFactorySizeSuccess();
+            })
+        )
+    );
+
+    payAddFactorySizeFail$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MoneyActions.payAddFactorySizeFail),
+            tap(props => {
+                this.toastr.error(props.error);
+                return ManufacturingActions.addFactorySizeFail();
             })
         )
     );
@@ -32,29 +44,23 @@ export class ManufacturingEffects {
         )
     );
 
-    storeFactories$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(ManufacturingActions.storeFactories),
-            withLatestFrom(this.store.select('manufacturing')),
-            tap(([action, state]) => {
-                localStorage.setItem('factories', JSON.stringify(state.factories));
-            })
-        )
-        , {dispatch: false}
-    );
-
     autoSaveFactories$ = createEffect(() =>
         this.actions$.pipe(
             ofType(
                 ManufacturingActions.addFactory,
                 ManufacturingActions.addFactorySizeSuccess,
-                ManufacturingActions.deleteFactory,
+                ManufacturingActions.deleteFactory
             ),
             debounceTime(500),
-            map(() => ManufacturingActions.storeFactories())
-        )
+            withLatestFrom(this.store.select('manufacturing')),
+            tap(([action, state]) => {
+                localStorage.setItem('factories', JSON.stringify(state.factories));
+            })
+        ), 
+        {dispatch: false}
     );
 
     constructor(private actions$: Actions,
-                private store: Store<fromApp.AppState>) {}
+                private store: Store<fromApp.AppState>,
+                private toastr: ToastrService) {}
 }

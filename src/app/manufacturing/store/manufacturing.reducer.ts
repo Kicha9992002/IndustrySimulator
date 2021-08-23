@@ -4,13 +4,17 @@ import { Factory, Location, PropertyType } from "src/app/shared/factory.model";
 import * as ManufacturingActions from './manufacturing.actions';
 
 export interface State {
-    factories: Factory[]
+    factories: Factory[],
+    editIndex: number,
+    editSize: number
 }
 
 const initialState: State = {
     factories: [
         new Factory(0, 'Apple orchard', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 10, Location.Germany, PropertyType.owner)
-    ]
+    ],
+    editIndex: -1,
+    editSize: 0
 };
 
 const _manufacturingReducer = createReducer(
@@ -33,12 +37,32 @@ const _manufacturingReducer = createReducer(
     ),
 
     on(
+        ManufacturingActions.addFactorySize,
+        (state, action) => ({
+            ...state,
+            editIndex: action.index,
+            editSize: action.size
+        })
+    ),
+
+    on(
         ManufacturingActions.addFactorySizeSuccess,
         (state, action) => ({
             ...state,
+            editIndex: -1,
+            editSize: 0,
             factories: state.factories.map(
-                (factory, index) => index == action.index ? {...factory, size: factory.size + action.size} : factory
+                (factory, index) => index == state.editIndex ? {...factory, size: factory.size + state.editSize} : factory
             )
+        })
+    ),
+
+    on(
+        ManufacturingActions.addFactorySizeFail,
+        (state, action) => ({
+            ...state,
+            editIndex: -1,
+            editSize: 0
         })
     ),
 

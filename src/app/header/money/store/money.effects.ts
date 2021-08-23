@@ -11,20 +11,16 @@ import { ManufacturingService } from 'src/app/manufacturing/manufactoring.servic
 
 @Injectable()
 export class MoneyEffects {
-    addFactorySize$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(ManufacturingActions.addFactorySizeStart),
-            map(props => {
-                return MoneyActions.payAddFactorySize({size: props.size, index: props.index, cost: props.cost});
-            })
-        )
-    );
-
     payAddFactorySize$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(MoneyActions.payAddFactorySize),
-            map(props => {
-                return MoneyActions.subtractMoney({money: props.cost});
+            ofType(ManufacturingActions.addFactorySize),
+            withLatestFrom(this.store.select('money')),
+            map(([action, state]) => {
+                if (action.cost < state.money) {
+                    return MoneyActions.payAddFactorySizeSuccess({cost: action.cost});
+                } else {
+                    return MoneyActions.payAddFactorySizeFail({error: 'Not enough money'});
+                }
             })
         )
     );
@@ -55,9 +51,14 @@ export class MoneyEffects {
         )
     );
 
-    storeMoney$ = createEffect(() =>
+    autosaveMoney$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(MoneyActions.storeMoney),
+            ofType(
+                MoneyActions.addMoney,
+                MoneyActions.subtractMoney,
+                MoneyActions.payAddFactorySizeSuccess
+            ),
+            debounceTime(500),
             withLatestFrom(this.store.select('money')),
             tap(([action, state]) => {
                 localStorage.setItem('money', JSON.stringify(state.money));
@@ -66,18 +67,7 @@ export class MoneyEffects {
         {dispatch: false}
     );
 
-    autosaveMoney$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(
-                MoneyActions.addMoney,
-                MoneyActions.subtractMoney
-            ),
-            debounceTime(500),
-            map(() => MoneyActions.storeMoney())
-        )
-    );
-
     constructor(private actions$: Actions,
-        private store: Store<fromApp.AppState>,
-        private manufacturingService: ManufacturingService) {}
+                private store: Store<fromApp.AppState>,
+                private manufacturingService: ManufacturingService) {}
 }

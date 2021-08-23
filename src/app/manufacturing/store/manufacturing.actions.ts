@@ -16,8 +16,8 @@ export const addFactory = createAction(
     }>()
 );
 
-export const addFactorySizeStart = createAction(
-    '[Manufacturing] Add Factory Size Start',
+export const addFactorySize = createAction(
+    '[Manufacturing] Add Factory Size',
     props<{
         size: number,
         index: number,
@@ -26,11 +26,11 @@ export const addFactorySizeStart = createAction(
 );
 
 export const addFactorySizeSuccess = createAction(
-    '[Manufacturing] Add Factory Size Success',
-    props<{
-        size: number,
-        index: number
-    }>()
+    '[Manufacturing] Add Factory Size Success'
+);
+
+export const addFactorySizeFail = createAction(
+    '[Manufacturing] Add Factory Size Fail',
 );
 
 export const deleteFactory = createAction(
@@ -43,7 +43,3 @@ export const deleteFactory = createAction(
 export const fetchFactories = createAction(
     '[Manufacturing] Fetch Factories'
 );
-
-export const storeFactories = createAction(
-    '[Manufacturing] Store Factories'
-)

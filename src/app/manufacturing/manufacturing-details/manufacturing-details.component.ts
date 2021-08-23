@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Factory } from 'src/app/shared/factory.model';
 import { ManufacturingService } from '../manufactoring.service';
 import * as fromApp from '../../store/app.reducer';
+import * as ManufacturingActions from '../store/manufacturing.actions';
 
 @Component({
   selector: 'app-manufacturing-details',
@@ -47,7 +48,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
   }
 
   addSize(size: number = 10, cost: number = 5000) {
-    this.store.dispatch(ManufacturingActions.addFactorySizeStart({size, index: this.id, cost}));    
+    this.store.dispatch(ManufacturingActions.addFactorySize({size, index: this.id, cost}));    
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
