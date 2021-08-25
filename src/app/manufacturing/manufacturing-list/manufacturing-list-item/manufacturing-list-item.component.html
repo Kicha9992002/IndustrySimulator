@@ -7,7 +7,7 @@
         <li class="list-group-item tool"><span class="material-icons">area_chart</span> {{factory.size}}</li>
         <li class="list-group-item"><span class="material-icons">group</span> {{factory.employees.length}} / {{maxEmployees}}</li>
         <li class="list-group-item"><span class="material-icons">precision_manufacturing</span> {{output}} kg/tick</li>
-        <li class="list-group-item"><span class="material-icons">euro</span> {{cost}}/tick</li>
+        <li class="list-group-item"><span class="material-icons">euro</span> {{cost | currency:'':''}}/tick</li>
     </ul>
     <div class="card-body text-center">
         <button
