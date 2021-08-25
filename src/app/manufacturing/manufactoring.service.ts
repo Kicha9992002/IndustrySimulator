@@ -16,9 +16,9 @@ export class ManufacturingService {
 
   getFactoryMaxEmployees(size: number) {
     let maxEmployees = 0;
-    for (let i = 0; i < appConfig.maxEmployees.length; i++) {
-      if (size >= appConfig.maxEmployees[i].size) {
-        maxEmployees = appConfig.maxEmployees[i].max;
+    for (let i = 0; i < appConfig.manufacturing.maxEmployees.length; i++) {
+      if (size >= appConfig.manufacturing.maxEmployees[i].size) {
+        maxEmployees = appConfig.manufacturing.maxEmployees[i].max;
       }
     }
     return maxEmployees;
@@ -36,6 +36,6 @@ export class ManufacturingService {
   }
 
   private getLocationModifier(location: Location) {
-    return appConfig.locationModifiers.find(locationModifier => locationModifier.location == location);
+    return appConfig.manufacturing.locationModifiers.find(locationModifier => locationModifier.location == location);
   }
 }

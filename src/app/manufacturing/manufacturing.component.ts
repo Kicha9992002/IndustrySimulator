@@ -27,7 +27,7 @@ export class ManufacturingComponent implements OnInit {
         this.store.dispatch(ManufacturingActions.addFactory({factory: new Factory(
           maxId + 1,
           FactoryType.appleOrchard,
-          appConfig.areaAddSize,
+          appConfig.manufacturing.areaAddSize,
           Location.Germany,
           PropertyType.owner
         )}));
