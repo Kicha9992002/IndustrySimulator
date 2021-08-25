@@ -25,6 +25,20 @@ export const fetchMoney = createAction(
     '[Money] Fetch Money'
 );
 
+export const payAddFactorySuccess = createAction(
+    '[Money] Pay Add Factory Success',
+    props<{
+        cost: number
+    }>()
+);
+
+export const payAddFactoryFail = createAction(
+    '[Money] Pay Add Factory Fail',
+    props<{
+        error: string
+    }>()
+);
+
 export const payAddFactorySizeSuccess = createAction(
     '[Money] Pay Add Factory Size',
     props<{

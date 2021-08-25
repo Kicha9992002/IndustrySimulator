@@ -12,8 +12,17 @@ export const setFactories = createAction(
 export const addFactory = createAction(
     '[Manufacturing] Add Factory',
     props<{
-        factory: Factory
+        factory: Factory,
+        cost: number
     }>()
+);
+
+export const addFactorySuccess = createAction(
+    '[Manufacturing] Add Factory Success'
+);
+
+export const addFactoryFail = createAction(
+    '[Manufacturing] Add Factory Fail'
 );
 
 export const addFactorySize = createAction(

@@ -1,3 +1,4 @@
+import { state } from "@angular/animations";
 import { Action, createReducer, on } from "@ngrx/store";
 
 import { Factory, Location, PropertyType } from "src/app/shared/factory.model";
@@ -6,7 +7,8 @@ import * as ManufacturingActions from './manufacturing.actions';
 export interface State {
     factories: Factory[],
     editIndex: number,
-    editSize: number
+    editSize: number,
+    newFactory: Factory
 }
 
 const initialState: State = {
@@ -14,7 +16,8 @@ const initialState: State = {
         new Factory(0, 'Apple orchard', 'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png', 10, Location.Germany, PropertyType.owner)
     ],
     editIndex: -1,
-    editSize: 0
+    editSize: 0,
+    newFactory: null
 };
 
 const _manufacturingReducer = createReducer(
@@ -32,7 +35,24 @@ const _manufacturingReducer = createReducer(
         ManufacturingActions.addFactory,
         (state, action) => ({
             ...state,
-            factories: state.factories.concat({...action.factory})
+            newFactory: action.factory
+        })
+    ),
+
+    on(
+        ManufacturingActions.addFactorySuccess,
+        (state, action) => ({
+            ...state,
+            newFactory: null,
+            factories: state.factories.concat({...state.newFactory})
+        })
+    ),
+
+    on(
+        ManufacturingActions.addFactoryFail,
+        (state, action) => ({
+            ...state,
+            newFactory: null
         })
     ),
 

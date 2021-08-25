@@ -11,6 +11,20 @@ import { ManufacturingService } from 'src/app/manufacturing/manufactoring.servic
 
 @Injectable()
 export class MoneyEffects {
+    payAddFactory$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.addFactory),
+            withLatestFrom(this.store.select('money')),
+            map(([action, state]) => {
+                if (action.cost < state.money) {
+                    return MoneyActions.payAddFactorySuccess({cost: action.cost});
+                } else {
+                    return MoneyActions.payAddFactoryFail({error: 'Not enough money'});
+                }
+            })
+        )
+    );
+
     payAddFactorySize$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ManufacturingActions.addFactorySize),
@@ -56,6 +70,7 @@ export class MoneyEffects {
             ofType(
                 MoneyActions.addMoney,
                 MoneyActions.subtractMoney,
+                MoneyActions.payAddFactorySuccess,
                 MoneyActions.payAddFactorySizeSuccess
             ),
             debounceTime(500),

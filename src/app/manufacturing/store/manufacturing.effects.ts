@@ -10,11 +10,30 @@ import * as MoneyActions from '../../header/money/store/money.actions';
 
 @Injectable()
 export class ManufacturingEffects {
+    payAddFactorySuccess$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(MoneyActions.payAddFactorySuccess),
+            map(() => {
+                this.toastr.success('Fabrik hinzugefügt');
+                return ManufacturingActions.addFactorySuccess();
+            })
+        )
+    );
+
+    payAddFactoryFail$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MoneyActions.payAddFactoryFail),
+            map(props => {
+                this.toastr.error(props.error);
+                return ManufacturingActions.addFactoryFail();
+            })
+        )
+    );
+
     payAddFactorySizeSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(MoneyActions.payAddFactorySizeSuccess),
-            withLatestFrom(this.store.select('manufacturing')),
-            map(([action, state]) => {
+            map(() => {
                 this.toastr.success('Fabrikgröße erweitert');
                 return ManufacturingActions.addFactorySizeSuccess();
             })
@@ -24,7 +43,7 @@ export class ManufacturingEffects {
     payAddFactorySizeFail$ = createEffect(() =>
         this.actions$.pipe(
             ofType(MoneyActions.payAddFactorySizeFail),
-            tap(props => {
+            map(props => {
                 this.toastr.error(props.error);
                 return ManufacturingActions.addFactorySizeFail();
             })
