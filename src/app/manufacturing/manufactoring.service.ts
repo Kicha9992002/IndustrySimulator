@@ -19,6 +19,10 @@ export class ManufacturingService {
 
   constructor() { }
 
+  getFactoryPrice(factory: Factory) {
+    return 5000;
+  }
+
   getFactoryMaxEmployees(size: number) {
     let maxEmployees = 0;
     for (let i = 0; i < this.maxEmployees.length; i++) {

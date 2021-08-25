@@ -10,8 +10,7 @@ export const fetchFactories = createAction('[Manufacturing] Fetch Factories');
 
 export const addFactory = createAction('[Manufacturing] Add Factory',
 props<{
-    factory: Factory,
-    cost: number
+    factory: Factory
 }>());
 export const addFactorySuccess = createAction('[Manufacturing] Add Factory Success');
 export const addFactoryFail = createAction('[Manufacturing] Add Factory Fail');

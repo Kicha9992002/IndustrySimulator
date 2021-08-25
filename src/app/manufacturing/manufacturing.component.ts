@@ -30,7 +30,7 @@ export class ManufacturingComponent implements OnInit {
           10,
           Location.Germany,
           PropertyType.owner
-        ), cost: 5000}));
+        )}));
       })
     ).subscribe();
 

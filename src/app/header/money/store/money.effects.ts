@@ -16,8 +16,10 @@ export class MoneyEffects {
             ofType(ManufacturingActions.addFactory),
             withLatestFrom(this.store.select('money')),
             map(([action, state]) => {
-                if (action.cost < state.money) {
-                    return MoneyActions.payAddFactorySuccess({cost: action.cost});
+                const price = this.manufacturingService.getFactoryPrice(action.factory);
+
+                if (price < state.money) {
+                    return MoneyActions.payAddFactorySuccess({cost: price});
                 } else {
                     return MoneyActions.payAddFactoryFail({error: 'Not enough money'});
                 }
