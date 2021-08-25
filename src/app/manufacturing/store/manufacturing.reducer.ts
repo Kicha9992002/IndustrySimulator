@@ -1,14 +1,16 @@
-import { state } from "@angular/animations";
 import { Action, createReducer, on } from "@ngrx/store";
 
 import { Factory, Location, PropertyType } from "src/app/shared/factory.model";
 import * as ManufacturingActions from './manufacturing.actions';
+import { Employee } from "src/app/shared/employee.model";
 
 export interface State {
     factories: Factory[],
     editIndex: number,
     editSize: number,
-    newFactory: Factory
+    newFactory: Factory,
+    newEmployee: Employee | null,
+    employeeIndex: number
 }
 
 const initialState: State = {
@@ -17,7 +19,9 @@ const initialState: State = {
     ],
     editIndex: -1,
     editSize: 0,
-    newFactory: null
+    newFactory: null,
+    newEmployee: null,
+    employeeIndex: -1
 };
 
 const _manufacturingReducer = createReducer(
@@ -83,6 +87,74 @@ const _manufacturingReducer = createReducer(
             ...state,
             editIndex: -1,
             editSize: 0
+        })
+    ),
+
+    on(
+        ManufacturingActions.addEmployee,
+        (state, action) => ({
+            ...state,
+            editIndex: action.factoryIndex,
+            newEmployee: action.employee
+        })
+    ),
+
+    on(
+        ManufacturingActions.addEmployeeSuccess,
+        (state, action) => ({
+            ...state,
+            editIndex: -1,
+            newEmployee: null,
+            factories: state.factories.map((factory, index) => {
+                if (index == state.editIndex) {
+                    return {...factory, employees: factory.employees.concat({...state.newEmployee})}
+                }
+                return factory;
+            })
+        })
+    ),
+
+    on(
+        ManufacturingActions.addEmployeeFail,
+        (state, action) => ({
+            ...state,
+            editIndex: -1,
+            newEmployee: null
+        })
+    ),
+
+    on(
+        ManufacturingActions.removeEmployee,
+        (state, action) => ({
+            ...state,
+            editIndex: action.factoryIndex,
+            employeeIndex: action.employeeIndex
+        })
+    ),
+
+    on(
+        ManufacturingActions.removeEmployeeSuccess,
+        (state, action) => ({
+            ...state,
+            editIndex: -1,
+            employeeIndex: -1,
+            factories: state.factories.map((factory, index) => {
+                if (index == state.editIndex) {
+                    return {...factory, employees: factory.employees.filter((_, index) => {
+                        return index !== state.employeeIndex;
+                    })};
+                }
+                return factory;
+            })
+        })
+    ),
+
+    on(
+        ManufacturingActions.removeEmployeeFail,
+        (state, action) => ({
+            ...state,
+            editIndex: -1,
+            employeeIndex: -1
         })
     ),
 

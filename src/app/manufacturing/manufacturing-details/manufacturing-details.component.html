@@ -8,10 +8,10 @@
 </div>
 <div>
     <div><span class="material-icons">group</span> {{factory?.employees.length}} / {{maxEmployees}}</div>
-    <button class="btn btn-secondary">
+    <button class="btn btn-secondary" (click)="addEmployee()">
         <span class="material-icons">person_add</span>
     </button>
-    <button class="btn btn-secondary">
+    <button class="btn btn-secondary" (click)="removeEmployee()">
         <span class="material-icons">person_remove</span>
     </button>
 </div>

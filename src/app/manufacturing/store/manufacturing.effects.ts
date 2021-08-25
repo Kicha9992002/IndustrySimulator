@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from './manufacturing.actions';
 import * as MoneyActions from '../../header/money/store/money.actions';
+import { ManufacturingService } from '../manufactoring.service';
 
 @Injectable()
 export class ManufacturingEffects {
@@ -50,6 +51,41 @@ export class ManufacturingEffects {
         )
     );
 
+    addEmployee$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.addEmployee),
+            withLatestFrom(this.store.select('manufacturing')),
+            map(response => {
+                const factory = response[1].factories[response[0].factoryIndex];
+                const maxEmployees = this.manufacturingService.getFactoryMaxEmployees(factory.size);
+                if (maxEmployees > factory.employees.length) {
+                    this.toastr.success('Mitarbeiter eingestellt');
+                    return ManufacturingActions.addEmployeeSuccess();
+                } else {
+                    this.toastr.error('Maximale Anzahl Mitarbeiter bereits erreicht');
+                    return ManufacturingActions.addEmployeeFail();
+                }
+            })
+        )
+    );
+
+    removeEmployee$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.removeEmployee),
+            withLatestFrom(this.store.select('manufacturing')),
+            map(response => {
+                const factory = response[1].factories[response[0].factoryIndex];
+                if (factory.employees.length > 0) {
+                    this.toastr.success('Mitarbeiter entlassen');
+                    return ManufacturingActions.removeEmployeeSuccess();
+                } else {
+                    this.toastr.error('Keine Mitarbeiter zum Entlassen vorhanden');
+                    return ManufacturingActions.removeEmployeeFail();
+                }
+            })
+        )
+    );
+
     fetchFactories$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ManufacturingActions.fetchFactories),
@@ -66,9 +102,11 @@ export class ManufacturingEffects {
     autoSaveFactories$ = createEffect(() =>
         this.actions$.pipe(
             ofType(
-                ManufacturingActions.addFactory,
+                ManufacturingActions.addFactorySuccess,
                 ManufacturingActions.addFactorySizeSuccess,
-                ManufacturingActions.deleteFactory
+                ManufacturingActions.deleteFactorySuccess,
+                ManufacturingActions.addEmployeeSuccess,
+                ManufacturingActions.removeEmployeeSuccess
             ),
             debounceTime(500),
             withLatestFrom(this.store.select('manufacturing')),
@@ -81,5 +119,6 @@ export class ManufacturingEffects {
 
     constructor(private actions$: Actions,
                 private store: Store<fromApp.AppState>,
-                private toastr: ToastrService) {}
+                private toastr: ToastrService,
+                private manufacturingService: ManufacturingService) {}
 }
