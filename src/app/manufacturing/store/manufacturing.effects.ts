@@ -55,8 +55,8 @@ export class ManufacturingEffects {
         this.actions$.pipe(
             ofType(ManufacturingActions.addEmployee),
             withLatestFrom(this.store.select('manufacturing')),
-            map(response => {
-                const factory = response[1].factories[response[0].factoryIndex];
+            map(([action, state]) => {
+                const factory = state.factories[action.factoryIndex];
                 const maxEmployees = this.manufacturingService.getFactoryMaxEmployees(factory.size);
                 if (maxEmployees > factory.employees.length) {
                     this.toastr.success('Mitarbeiter eingestellt');
@@ -73,8 +73,8 @@ export class ManufacturingEffects {
         this.actions$.pipe(
             ofType(ManufacturingActions.removeEmployee),
             withLatestFrom(this.store.select('manufacturing')),
-            map(response => {
-                const factory = response[1].factories[response[0].factoryIndex];
+            map(([action, state]) => {
+                const factory = state.factories[action.factoryIndex];
                 if (factory.employees.length > 0) {
                     this.toastr.success('Mitarbeiter entlassen');
                     return ManufacturingActions.removeEmployeeSuccess();
