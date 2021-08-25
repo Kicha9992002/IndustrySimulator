@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, take, tap } from 'rxjs/operators';
+import { appConfig } from '../app.config';
 
-import { Factory, Location, PropertyType } from '../shared/factory.model';
+import { Factory, FactoryType, Location, PropertyType } from '../shared/factory.model';
 import * as fromApp from '../store/app.reducer';
 import * as ManufacturingActions from './store/manufacturing.actions';
 
@@ -25,9 +26,8 @@ export class ManufacturingComponent implements OnInit {
         let maxId = factories[factories.length - 1].id;
         this.store.dispatch(ManufacturingActions.addFactory({factory: new Factory(
           maxId + 1,
-          'Apple orchard',
-          'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png',
-          10,
+          FactoryType.appleOrchard,
+          appConfig.areaAddSize,
           Location.Germany,
           PropertyType.owner
         )}));

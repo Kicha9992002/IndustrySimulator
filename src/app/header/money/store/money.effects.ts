@@ -8,6 +8,7 @@ import * as fromApp from '../../../store/app.reducer';
 import * as MoneyActions from './money.actions';
 import * as ManufacturingActions from '../../../manufacturing/store/manufacturing.actions';
 import { ManufacturingService } from 'src/app/manufacturing/manufactoring.service';
+import { appConfig } from 'src/app/app.config';
 
 @Injectable()
 export class MoneyEffects {
@@ -42,7 +43,7 @@ export class MoneyEffects {
     );
 
     incomeMoney$ = createEffect(() =>
-        interval(5000).pipe(
+        interval(appConfig.incomeInterval).pipe( 
             withLatestFrom(this.store.select('manufacturing')),
             map(([action, state]) => {
                 let cost = 0;
@@ -75,7 +76,7 @@ export class MoneyEffects {
                 MoneyActions.payAddFactorySuccess,
                 MoneyActions.payAddFactorySizeSuccess
             ),
-            debounceTime(500),
+            debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('money')),
             tap(([action, state]) => {
                 localStorage.setItem('money', JSON.stringify(state.money));

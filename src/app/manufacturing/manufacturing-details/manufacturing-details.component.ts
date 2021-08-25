@@ -9,6 +9,7 @@ import { ManufacturingService } from '../manufactoring.service';
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from '../store/manufacturing.actions';
 import { Employee } from 'src/app/shared/employee.model';
+import { appConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'app-manufacturing-details',
@@ -48,7 +49,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  addSize(size: number = 10, cost: number = 5000) {
+  addSize(size: number = appConfig.areaAddSize, cost: number = 5000) {
     this.store.dispatch(ManufacturingActions.addFactorySize({size, index: this.id, cost}));    
   }
 
@@ -58,6 +59,10 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   removeEmployee() {
     this.store.dispatch(ManufacturingActions.removeEmployee({employeeIndex: 0, factoryIndex: this.id}));
+  }
+
+  getAreaAddSize() {
+    return appConfig.areaAddSize;
   }
 
   ngOnDestroy() {

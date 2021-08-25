@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from "@ngrx/store";
 
+import { appConfig } from "src/app/app.config";
 import * as MoneyActions from './money.actions';
 
 export interface State {
@@ -7,7 +8,7 @@ export interface State {
 }
 
 const initialState: State = {
-    money: 20000
+    money: appConfig.startMoney
 };
 
 const _moneyReducer = createReducer(

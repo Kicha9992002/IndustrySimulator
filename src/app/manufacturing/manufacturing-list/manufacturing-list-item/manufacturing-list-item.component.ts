@@ -7,7 +7,7 @@ import { ManufacturingService } from '../../manufactoring.service';
   templateUrl: './manufacturing-list-item.component.html'
 })
 export class ManufacturingListItemComponent implements OnInit {
-  @Input() factory: Factory;
+  @Input() factory!: Factory;
   output: number;
   cost: number;
   maxEmployees: number;
