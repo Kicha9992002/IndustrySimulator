@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "docker build": "docker build . -t kicha1/industrysimulator",
+    "docker push": "docker push kicha1/industrysimulator"
   },
   "private": true,
   "dependencies": {
