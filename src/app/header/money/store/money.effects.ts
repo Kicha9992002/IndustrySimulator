@@ -43,12 +43,13 @@ export class MoneyEffects {
     );
 
     incomeMoney$ = createEffect(() =>
-        interval(appConfig.incomeInterval).pipe( 
+        interval(appConfig.incomeInterval).pipe(
             withLatestFrom(this.store.select('manufacturing')),
             map(([action, state]) => {
                 let cost = 0;
-                for (let i = 0; i < state.factories.length; i++) {
-                    cost += this.manufacturingService.getFactoryCost(state.factories[i]);
+
+                for (const factory of state.factories) {
+                    cost += this.manufacturingService.getFactoryCost(factory);
                 }
                 return MoneyActions.subtractMoney({money: cost});
             })

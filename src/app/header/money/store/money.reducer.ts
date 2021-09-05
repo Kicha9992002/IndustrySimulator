@@ -1,10 +1,10 @@
-import { Action, createReducer, on } from "@ngrx/store";
+import { Action, createReducer, on } from '@ngrx/store';
 
-import { appConfig } from "src/app/app.config";
+import { appConfig } from 'src/app/app.config';
 import * as MoneyActions from './money.actions';
 
 export interface State {
-    money: number
+    money: number;
 }
 
 const initialState: State = {

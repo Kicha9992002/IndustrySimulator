@@ -11,7 +11,7 @@ import * as MoneyActions from './header/money/store/money.actions';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService, 
+  constructor(private authService: AuthService,
               private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {

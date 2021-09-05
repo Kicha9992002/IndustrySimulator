@@ -13,17 +13,17 @@ import { AuthService } from './auth.service';
 export class AuthComponent implements OnInit, OnDestroy {
   authForm: FormGroup;
   isLoading = false;
-  isLoginMode= true;
+  isLoginMode = true;
   auth$: Subscription;
 
-  constructor(private authService: AuthService, 
-              private router: Router, 
+  constructor(private authService: AuthService,
+              private router: Router,
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
-      'email': new FormControl("", [Validators.required, Validators.email]),
-      'password': new FormControl("", [Validators.required, Validators.minLength(6)])
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 

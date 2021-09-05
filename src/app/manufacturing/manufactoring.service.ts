@@ -36,6 +36,6 @@ export class ManufacturingService {
   }
 
   private getLocationModifier(location: Location) {
-    return appConfig.manufacturing.locationModifiers.find(locationModifier => locationModifier.location == location);
+    return appConfig.manufacturing.locationModifiers.find(locationModifier => locationModifier.location === location);
   }
 }

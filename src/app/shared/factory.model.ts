@@ -1,4 +1,4 @@
-import { Employee } from "./employee.model";
+import { Employee } from './employee.model';
 
 export enum Location {
     Germany = 'Germany',
@@ -12,7 +12,7 @@ export enum PropertyType {
 
 export class FactoryType {
     static readonly appleOrchard = new FactoryType(
-        'apple Orchard', 
+        'apple Orchard',
         'https://cdn.pixabay.com/photo/2019/02/24/13/05/apple-icon-4017545_1280.png'
     );
 

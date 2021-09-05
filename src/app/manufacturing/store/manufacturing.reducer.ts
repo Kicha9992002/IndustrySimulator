@@ -1,16 +1,16 @@
-import { Action, createReducer, on } from "@ngrx/store";
+import { Action, createReducer, on } from '@ngrx/store';
 
-import { Factory, FactoryType, Location, PropertyType } from "src/app/shared/factory.model";
+import { Factory, FactoryType, Location, PropertyType } from 'src/app/shared/factory.model';
 import * as ManufacturingActions from './manufacturing.actions';
-import { Employee } from "src/app/shared/employee.model";
+import { Employee } from 'src/app/shared/employee.model';
 
 export interface State {
-    factories: Factory[],
-    editIndex: number,
-    editSize: number,
-    newFactory: Factory,
-    newEmployee: Employee | null,
-    employeeIndex: number
+    factories: Factory[];
+    editIndex: number;
+    editSize: number;
+    newFactory: Factory;
+    newEmployee: Employee | null;
+    employeeIndex: number;
 }
 
 const initialState: State = {
@@ -58,8 +58,8 @@ const _manufacturingReducer = createReducer(
         ...state,
         editIndex: -1,
         editSize: 0,
-        factories: state.factories.map((factory, index) => 
-            index == state.editIndex ? {...factory, size: factory.size + state.editSize} : factory
+        factories: state.factories.map((factory, index) =>
+            index === state.editIndex ? {...factory, size: factory.size + state.editSize} : factory
         )
     })),
 
@@ -80,8 +80,8 @@ const _manufacturingReducer = createReducer(
         editIndex: -1,
         newEmployee: null,
         factories: state.factories.map((factory, index) => {
-            if (index == state.editIndex) {
-                return {...factory, employees: factory.employees.concat({...state.newEmployee})}
+            if (index === state.editIndex) {
+                return {...factory, employees: factory.employees.concat({...state.newEmployee})};
             } else {
                 return factory;
             }
@@ -105,9 +105,9 @@ const _manufacturingReducer = createReducer(
         editIndex: -1,
         employeeIndex: -1,
         factories: state.factories.map((factory, index) => {
-            if (index == state.editIndex) {
-                return {...factory, employees: factory.employees.filter((_, index) => {
-                    return index !== state.employeeIndex;
+            if (index === state.editIndex) {
+                return {...factory, employees: factory.employees.filter((_, i) => {
+                    return i !== state.employeeIndex;
                 })};
             } else {
                 return factory;
@@ -123,7 +123,7 @@ const _manufacturingReducer = createReducer(
 
     on(ManufacturingActions.deleteFactory, (state, action) => ({
         ...state,
-        factories: state.factories.filter((_, index) => 
+        factories: state.factories.filter((_, index) =>
             index !== action.index
         )
     }))

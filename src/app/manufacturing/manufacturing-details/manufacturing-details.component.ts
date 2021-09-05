@@ -31,12 +31,12 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.route.params
       .pipe(
         switchMap(params => {
-          this.id = params['id'];
+          this.id = params.id;
           return this.store.select('manufacturing');
         }),
         map(manufacturingState => {
           return manufacturingState.factories.find((factory, index) => {
-            return index == this.id;
+            return index === this.id;
           });
         })
       ).subscribe(factory => {

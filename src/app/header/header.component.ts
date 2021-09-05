@@ -10,7 +10,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
   isNavCollapsed = true;
   isAuthenticated = false;
-  
+
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {

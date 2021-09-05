@@ -10,7 +10,7 @@ import * as fromApp from '../../store/app.reducer';
   templateUrl: './money.component.html'
 })
 export class MoneyComponent implements OnInit, OnDestroy {
-  money: number = 0;
+  money = 0;
   subscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) { }

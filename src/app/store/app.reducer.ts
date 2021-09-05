@@ -1,4 +1,4 @@
-import { ActionReducerMap } from "@ngrx/store";
+import { ActionReducerMap } from '@ngrx/store';
 
 import * as fromManufacturing from '../manufacturing/store/manufacturing.reducer';
 import * as fromMoney from '../header/money/store/money.reducer';
@@ -11,4 +11,4 @@ export interface AppState {
 export const appReducer: ActionReducerMap<AppState> = {
     manufacturing: fromManufacturing.manufacturingReducer,
     money: fromMoney.moneyReducer
-}
+};

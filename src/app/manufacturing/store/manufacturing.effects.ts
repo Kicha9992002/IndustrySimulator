@@ -11,7 +11,7 @@ import { ManufacturingService } from '../manufactoring.service';
 
 @Injectable()
 export class ManufacturingEffects {
-    payAddFactorySuccess$ = createEffect(() => 
+    payAddFactorySuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(MoneyActions.payAddFactorySuccess),
             map(() => {
@@ -113,7 +113,7 @@ export class ManufacturingEffects {
             tap(([action, state]) => {
                 localStorage.setItem('factories', JSON.stringify(state.factories));
             })
-        ), 
+        ),
         {dispatch: false}
     );
 

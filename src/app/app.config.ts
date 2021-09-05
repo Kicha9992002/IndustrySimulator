@@ -18,8 +18,8 @@ interface IAppConfig {
     factoryPrice: number;
     startMoney: number;
     incomeInterval: number;
-    autoSaveDebounceTime: number,
-};
+    autoSaveDebounceTime: number;
+}
 
 export const appConfig: IAppConfig = {
     manufacturing: {
@@ -39,4 +39,4 @@ export const appConfig: IAppConfig = {
     startMoney: 20000,
     incomeInterval: 5000,
     autoSaveDebounceTime: 500,
-}
+};
