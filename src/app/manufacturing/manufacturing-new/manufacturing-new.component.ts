@@ -48,6 +48,7 @@ export class ManufacturingNewComponent implements OnInit {
           this.addFactoryForm.get('propertyType').value
         )}));
 
+        this.addFactoryForm.reset();
         this.close.emit();
       })
     ).subscribe();
