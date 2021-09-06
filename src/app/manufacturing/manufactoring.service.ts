@@ -11,7 +11,11 @@ export class ManufacturingService {
   constructor() { }
 
   getFactoryPrice(factory: Factory) {
-    return appConfig.manufacturing.factoryPrice;
+    if (factory.propertyType === PropertyType.owner) {
+      return appConfig.manufacturing.factoryPrice;
+    } else {
+      return 0;
+    }
   }
 
   getFactoryMaxEmployees(size: number) {
