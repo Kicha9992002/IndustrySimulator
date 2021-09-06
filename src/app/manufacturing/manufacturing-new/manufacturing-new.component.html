@@ -1,0 +1,45 @@
+<div class="m-3" style="width: 200px;">
+    <form
+        [formGroup]="addFactoryForm"
+        (ngSubmit)="onAddFactory()">
+        <div class="form-floating mb-3">
+            <select
+                id="factoryType"
+                formControlName="factoryType"
+                #factoryType
+                class="form-select">
+                <option *ngFor="let factoryType of factoryTypes" [ngValue]="factoryType">{{factoryType}}</option>
+            </select>
+            <label for="factoryType" class="form-label">Factory type</label>
+        </div>
+        <div class="form-floating mb-3">
+            <select
+                type="text"
+                id="location"
+                formControlName="location"
+                #location
+                class="form-select">
+                <option *ngFor="let location of locations" [ngValue]="location">{{location}}</option>
+            </select>
+            <label for="location" class="form-label">Location</label>
+        </div>
+        <div class="form-floating mb-3">
+            <select
+                type="text"
+                id="propertyType"
+                formControlName="propertyType"
+                #propertyType
+                class="form-select">
+                <option *ngFor="let propertyType of propertyTypes" [ngValue]="propertyType">{{propertyType}}</option>
+            </select>
+            <label for="propertyType" class="form-label">Property type</label>
+        </div>
+        <div class="form-floating mb-3">
+            <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!addFactoryForm.valid"
+            >Add Factory</button>
+        </div>
+    </form>
+</div>

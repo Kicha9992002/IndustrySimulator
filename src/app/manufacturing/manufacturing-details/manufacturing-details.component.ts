@@ -51,8 +51,8 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   addSize() {
     this.store.dispatch(ManufacturingActions.addFactorySize({
-      size: appConfig.manufacturing.areaAddSize, 
-      index: this.id, 
+      size: appConfig.manufacturing.areaAddSize,
+      index: this.id,
       cost: this.getAreaAddSizeCost()
     }));
   }
