@@ -49,7 +49,7 @@ export class MoneyEffects {
                 let cost = 0;
 
                 for (const factory of state.factories) {
-                    cost += this.manufacturingService.getFactoryCost(factory);
+                    cost += this.manufacturingService.getFactoryRunningCost(factory);
                 }
                 return MoneyActions.subtractMoney({money: cost});
             })

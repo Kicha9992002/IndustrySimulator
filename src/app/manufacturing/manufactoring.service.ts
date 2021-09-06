@@ -28,7 +28,7 @@ export class ManufacturingService {
     return factory.employees.length * factory.size * this.getLocationModifier(factory.location).outputModifier;
   }
 
-  getFactoryCost(factory: Factory) {
+  getFactoryRunningCost(factory: Factory) {
     const employeeCost = factory.employees.length * this.getLocationModifier(factory.location).employeeCostModifier;
     const propertyModifier = factory.propertyType === PropertyType.tenant ? 'rentCostModifier' : 'ownerCostModifier';
 

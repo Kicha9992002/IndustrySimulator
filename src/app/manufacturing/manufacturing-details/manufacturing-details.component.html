@@ -2,8 +2,8 @@
 <div>
     <div><span class="material-icons">area_chart</span> {{factory?.size}}</div>
     <button class="btn btn-secondary" (click)="addSize()">
-        <div><span class="material-icons">area_chart</span> +{{getAreaAddSize()}}</div>
-        <div><span class="material-icons">euro</span> {{getAreaAddSizeCost() | currency:'':''}}</div>
+        <div><span class="material-icons">area_chart</span> +{{AreaAddSize}}</div>
+        <div><span class="material-icons">euro</span> {{AreaAddSizeCost | currency:'':''}}</div>
     </button>
 </div>
 <div>
@@ -16,4 +16,4 @@
     </button>
 </div>
 <div><span class="material-icons">precision_manufacturing</span> {{output}}/tick</div>
-<div><span class="material-icons">euro</span> {{cost | currency:'':''}}/tick</div>
+<div><span class="material-icons">euro</span> {{runningCost | currency:'':''}}/tick</div>

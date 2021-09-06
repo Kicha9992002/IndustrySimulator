@@ -8,16 +8,14 @@ import { ManufacturingService } from '../../manufactoring.service';
 })
 export class ManufacturingListItemComponent implements OnInit {
   @Input() factory!: Factory;
-  output: number;
-  cost: number;
-  maxEmployees: number;
+
+  get output() { return this.manufacturingService.getFactoryOutput(this.factory); }
+  get runningCost() { return this.manufacturingService.getFactoryRunningCost(this.factory); }
+  get maxEmployees() { return this.manufacturingService.getFactoryMaxEmployees(this.factory.size); }
 
   constructor(private manufacturingService: ManufacturingService) { }
 
   ngOnInit(): void {
-    this.output = this.manufacturingService.getFactoryOutput(this.factory);
-    this.cost = this.manufacturingService.getFactoryCost(this.factory);
-    this.maxEmployees = this.manufacturingService.getFactoryMaxEmployees(this.factory.size);
   }
 
 }

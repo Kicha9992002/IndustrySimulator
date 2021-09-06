@@ -18,10 +18,13 @@ import { appConfig } from 'src/app/app.config';
 export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
   factory?: Factory;
   output: number;
-  cost: number;
+  runningCost: number;
   maxEmployees: number;
   id: number;
   private subscription: Subscription;
+
+  get AreaAddSize() { return appConfig.manufacturing.areaAddSize; }
+  get AreaAddSizeCost() { return this.manufacturingService.getFactoryAddSizeCost(this.factory, this.AreaAddSize); }
 
   constructor(private manufacturingService: ManufacturingService,
               private route: ActivatedRoute,
@@ -43,7 +46,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
         if (factory) {
           this.factory = factory;
           this.output = this.manufacturingService.getFactoryOutput(this.factory);
-          this.cost = this.manufacturingService.getFactoryCost(this.factory);
+          this.runningCost = this.manufacturingService.getFactoryRunningCost(this.factory);
           this.maxEmployees = this.manufacturingService.getFactoryMaxEmployees(this.factory.size);
         }
       });
@@ -53,7 +56,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(ManufacturingActions.addFactorySize({
       size: appConfig.manufacturing.areaAddSize,
       index: this.id,
-      cost: this.getAreaAddSizeCost()
+      cost: this.AreaAddSizeCost
     }));
   }
 
@@ -63,14 +66,6 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   removeEmployee() {
     this.store.dispatch(ManufacturingActions.removeEmployee({employeeIndex: 0, factoryIndex: this.id}));
-  }
-
-  getAreaAddSize() {
-    return appConfig.manufacturing.areaAddSize;
-  }
-
-  getAreaAddSizeCost() {
-    return this.manufacturingService.getFactoryAddSizeCost(this.factory, this.getAreaAddSize());
   }
 
   ngOnDestroy() {
