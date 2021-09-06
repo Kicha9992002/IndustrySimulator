@@ -49,8 +49,12 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  addSize(size: number = appConfig.manufacturing.areaAddSize, cost: number = 5000) {
-    this.store.dispatch(ManufacturingActions.addFactorySize({size, index: this.id, cost}));    
+  addSize() {
+    this.store.dispatch(ManufacturingActions.addFactorySize({
+      size: appConfig.manufacturing.areaAddSize, 
+      index: this.id, 
+      cost: this.getAreaAddSizeCost()
+    }));
   }
 
   addEmployee() {
@@ -63,6 +67,10 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   getAreaAddSize() {
     return appConfig.manufacturing.areaAddSize;
+  }
+
+  getAreaAddSizeCost() {
+    return this.manufacturingService.getFactoryAddSizeCost(this.factory, this.getAreaAddSize());
   }
 
   ngOnDestroy() {

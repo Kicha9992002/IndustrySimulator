@@ -13,9 +13,10 @@ interface IAppConfig {
             rentCostModifier: number;
             ownerCostModifier: number;
         }[];
+        factoryPrice: number;
         areaAddSize: number;
+        areaAddSizePrice: number;
     };
-    factoryPrice: number;
     startMoney: number;
     incomeInterval: number;
     autoSaveDebounceTime: number;
@@ -33,9 +34,10 @@ export const appConfig: IAppConfig = {
             {location: Location.Germany, outputModifier: 1.2, employeeCostModifier: 1.3, rentCostModifier: 13, ownerCostModifier: 6},
             {location: Location.France, outputModifier: 1, employeeCostModifier: 1.1, rentCostModifier: 11, ownerCostModifier: 5}
         ],
-        areaAddSize: 10
+        factoryPrice: 5000,
+        areaAddSize: 10,
+        areaAddSizePrice: 5000
     },
-    factoryPrice: 5000,
     startMoney: 20000,
     incomeInterval: 5000,
     autoSaveDebounceTime: 500,

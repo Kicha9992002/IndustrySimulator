@@ -11,7 +11,7 @@ export class ManufacturingService {
   constructor() { }
 
   getFactoryPrice(factory: Factory) {
-    return appConfig.factoryPrice;
+    return appConfig.manufacturing.factoryPrice;
   }
 
   getFactoryMaxEmployees(size: number) {
@@ -33,6 +33,10 @@ export class ManufacturingService {
     const propertyModifier = factory.propertyType === PropertyType.tenant ? 'rentCostModifier' : 'ownerCostModifier';
 
     return employeeCost + factory.size * this.getLocationModifier(factory.location)[propertyModifier];
+  }
+
+  getFactoryAddSizeCost(factory: Factory, areaAddSize: number) {
+    return appConfig.manufacturing.areaAddSizePrice;
   }
 
   private getLocationModifier(location: Location) {
