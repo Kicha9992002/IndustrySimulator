@@ -9,6 +9,7 @@ import * as MoneyActions from './money.actions';
 import * as ManufacturingActions from '../../../manufacturing/store/manufacturing.actions';
 import { ManufacturingService } from 'src/app/manufacturing/manufactoring.service';
 import { appConfig } from 'src/app/app.config';
+import { PropertyType } from 'src/app/shared/factory.model';
 
 @Injectable()
 export class MoneyEffects {
@@ -38,6 +39,19 @@ export class MoneyEffects {
                 } else {
                     return MoneyActions.payAddFactorySizeFail({error: 'Not enough money'});
                 }
+            })
+        )
+    );
+
+    receiveDeleteFactory$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.deleteFactory),
+            withLatestFrom(this.store.select('manufacturing')),
+            map(([action, state]) => {
+                const factory = state.factories.find(factory => factory.id === state.removeFactoryIndex);
+                const gain = factory.propertyType === PropertyType.owner ? this.manufacturingService.getFactoryPrice(factory) : 0;
+
+                return MoneyActions.receiveDeleteFactorySuccess({gain});
             })
         )
     );
@@ -75,7 +89,8 @@ export class MoneyEffects {
                 MoneyActions.addMoney,
                 MoneyActions.subtractMoney,
                 MoneyActions.payAddFactorySuccess,
-                MoneyActions.payAddFactorySizeSuccess
+                MoneyActions.payAddFactorySizeSuccess,
+                MoneyActions.receiveDeleteFactorySuccess
             ),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('money')),

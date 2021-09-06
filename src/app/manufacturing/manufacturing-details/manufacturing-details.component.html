@@ -1,19 +1,23 @@
-<h1>{{factory?.factoryType.name}}</h1>
 <div>
-    <div><span class="material-icons">area_chart</span> {{factory?.size}}</div>
-    <button class="btn btn-secondary" (click)="addSize()">
-        <div><span class="material-icons">area_chart</span> +{{AreaAddSize}}</div>
-        <div><span class="material-icons">euro</span> {{AreaAddSizeCost | currency:'':''}}</div>
-    </button>
+    <h1>{{factory?.factoryType.name}}</h1>
+    <div>
+        <div><span class="material-icons">area_chart</span> {{factory?.size}}</div>
+        <button class="btn btn-secondary" (click)="addSize()">
+            <div><span class="material-icons">area_chart</span> +{{AreaAddSize}}</div>
+            <div><span class="material-icons">euro</span> {{AreaAddSizeCost | currency:'':''}}</div>
+        </button>
+    </div>
+    <div>
+        <div><span class="material-icons">group</span> {{factory?.employees.length}} / {{maxEmployees}}</div>
+        <button class="btn btn-secondary" (click)="addEmployee()">
+            <span class="material-icons">person_add</span>
+        </button>
+        <button class="btn btn-secondary" (click)="removeEmployee()">
+            <span class="material-icons">person_remove</span>
+        </button>
+    </div>
+    <div><span class="material-icons">precision_manufacturing</span> {{output}}/tick</div>
+    <div><span class="material-icons">euro</span> {{runningCost | currency:'':''}}/tick</div>
+
+    <div><button class="btn btn-danger" (click)="deleteFactory()">{{RemoveText}}</button></div>
 </div>
-<div>
-    <div><span class="material-icons">group</span> {{factory?.employees.length}} / {{maxEmployees}}</div>
-    <button class="btn btn-secondary" (click)="addEmployee()">
-        <span class="material-icons">person_add</span>
-    </button>
-    <button class="btn btn-secondary" (click)="removeEmployee()">
-        <span class="material-icons">person_remove</span>
-    </button>
-</div>
-<div><span class="material-icons">precision_manufacturing</span> {{output}}/tick</div>
-<div><span class="material-icons">euro</span> {{runningCost | currency:'':''}}/tick</div>

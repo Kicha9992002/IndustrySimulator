@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { debounceTime, filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -8,6 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from './manufacturing.actions';
 import * as MoneyActions from '../../header/money/store/money.actions';
 import { ManufacturingService } from '../manufactoring.service';
+import { PropertyType } from 'src/app/shared/factory.model';
 
 @Injectable()
 export class ManufacturingEffects {
@@ -49,6 +51,30 @@ export class ManufacturingEffects {
                 return ManufacturingActions.addFactorySizeFail();
             })
         )
+    );
+
+    receiveDeleteFactorySuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(MoneyActions.receiveDeleteFactorySuccess),
+            withLatestFrom(this.store.select('manufacturing')),
+            map(([action, state]) => {
+                const factory = state.factories.find(factory => factory.id === state.removeFactoryIndex);
+                const successText = factory.propertyType === PropertyType.owner ? 'Fabrik verkauft' : 'Miete für Fabrik beendet';
+                this.toastr.success(successText);
+
+                return ManufacturingActions.deleteFactorySuccess();
+            })
+        )
+    );
+
+    deleteFactorySuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ManufacturingActions.deleteFactorySuccess),
+            tap(() => {
+                this.router.navigate(['/manufacturing']);
+            })
+        ),
+        {dispatch: false}
     );
 
     addEmployee$ = createEffect(() =>
@@ -120,5 +146,6 @@ export class ManufacturingEffects {
     constructor(private actions$: Actions,
                 private store: Store<fromApp.AppState>,
                 private toastr: ToastrService,
-                private manufacturingService: ManufacturingService) {}
+                private manufacturingService: ManufacturingService,
+                private router: Router) {}
 }

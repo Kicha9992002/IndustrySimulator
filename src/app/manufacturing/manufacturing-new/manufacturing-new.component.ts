@@ -39,7 +39,7 @@ export class ManufacturingNewComponent implements OnInit {
       take(1),
       map(manufacturingState => manufacturingState.factories),
       tap(factories => {
-        const maxId = factories[factories.length - 1].id;
+        const maxId = factories.length > 0 ? factories[factories.length - 1].id : 0;
         this.store.dispatch(ManufacturingActions.addFactory({factory: new Factory(
           maxId + 1,
           FactoryType[this.addFactoryForm.get('factoryType').value],

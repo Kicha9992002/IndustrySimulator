@@ -6,9 +6,10 @@ import { Employee } from 'src/app/shared/employee.model';
 
 export interface State {
     factories: Factory[];
+    newFactory: Factory;
+    removeFactoryIndex: number;
     editIndex: number;
     editSize: number;
-    newFactory: Factory;
     newEmployee: Employee | null;
     employeeIndex: number;
 }
@@ -17,9 +18,10 @@ const initialState: State = {
     factories: [
         new Factory(0, FactoryType.appleOrchard, 10, Location.Germany, PropertyType.owner)
     ],
+    newFactory: null,
+    removeFactoryIndex: -1,
     editIndex: -1,
     editSize: 0,
-    newFactory: null,
     newEmployee: null,
     employeeIndex: -1
 };
@@ -123,9 +125,15 @@ const _manufacturingReducer = createReducer(
 
     on(ManufacturingActions.deleteFactory, (state, action) => ({
         ...state,
-        factories: state.factories.filter((_, index) =>
-            index !== action.index
-        )
+        removeFactoryIndex: action.index
+    })),
+
+    on(ManufacturingActions.deleteFactorySuccess, (state, action) => ({
+        ...state,
+        factories: state.factories.filter((factory, _) =>
+        factory.id !== state.removeFactoryIndex
+        ),
+        removeFactoryIndex: -1
     }))
 );
 

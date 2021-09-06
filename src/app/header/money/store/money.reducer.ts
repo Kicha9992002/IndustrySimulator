@@ -37,6 +37,11 @@ const _moneyReducer = createReducer(
     on(MoneyActions.payAddFactorySizeSuccess, (state, action) => ({
         ...state,
         money: state.money - action.cost
+    })),
+
+    on(MoneyActions.receiveDeleteFactorySuccess, (state, action) => ({
+        ...state,
+        money: state.money + action.gain
     }))
 );
 

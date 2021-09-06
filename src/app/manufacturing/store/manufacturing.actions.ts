@@ -41,4 +41,3 @@ export const deleteFactory = createAction('[Manufacturing] Delete Factory', prop
     index: number
 }>());
 export const deleteFactorySuccess = createAction('[Manufacturing] Delete Factory Success');
-export const deleteFactoryFail = createAction('[Manufacturing] Delete Factory Fail');

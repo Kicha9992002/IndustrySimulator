@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { Factory } from 'src/app/shared/factory.model';
+import { Factory, PropertyType } from 'src/app/shared/factory.model';
 import { ManufacturingService } from '../manufactoring.service';
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from '../store/manufacturing.actions';
@@ -25,6 +25,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   get AreaAddSize() { return appConfig.manufacturing.areaAddSize; }
   get AreaAddSizeCost() { return this.manufacturingService.getFactoryAddSizeCost(this.factory, this.AreaAddSize); }
+  get RemoveText() { return this.factory?.propertyType == PropertyType.tenant ? 'cancel rent': 'sell'; }
 
   constructor(private manufacturingService: ManufacturingService,
               private route: ActivatedRoute,
@@ -66,6 +67,10 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   removeEmployee() {
     this.store.dispatch(ManufacturingActions.removeEmployee({employeeIndex: 0, factoryIndex: this.id}));
+  }
+
+  deleteFactory() {
+    this.store.dispatch(ManufacturingActions.deleteFactory({index: this.factory.id}));
   }
 
   ngOnDestroy() {

@@ -22,3 +22,6 @@ export const payAddFactorySizeSuccess = createAction('[Money] Pay Add Factory Si
 export const payAddFactorySizeFail = createAction('[Money] Pay Add Factory Size Fail', props<{
     error: string
 }>());
+export const receiveDeleteFactorySuccess = createAction('[Money] Receive Delete Factory Success', props<{
+    gain: number
+}>());
