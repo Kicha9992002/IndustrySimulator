@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 import { Factory, PropertyType } from 'src/app/shared/factory.model';
 import { ManufacturingService } from '../manufactoring.service';
@@ -10,6 +11,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from '../store/manufacturing.actions';
 import { Employee } from 'src/app/shared/employee.model';
 import { appConfig } from 'src/app/app.config';
+import { ConfirmComponent } from 'src/app/shared/confirm/confirm.component';
 
 @Component({
   selector: 'app-manufacturing-details',
@@ -29,7 +31,8 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private manufacturingService: ManufacturingService,
               private route: ActivatedRoute,
-              private store: Store<fromApp.AppState>) { }
+              private store: Store<fromApp.AppState>,
+              private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.subscription = this.route.params
@@ -70,7 +73,16 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
   }
 
   deleteFactory() {
-    this.store.dispatch(ManufacturingActions.deleteFactory({index: this.factory.id}));
+    const confirmed = new EventEmitter<void>();
+    confirmed.subscribe(() => {
+      confirmed.unsubscribe();
+      this.store.dispatch(ManufacturingActions.deleteFactory({index: this.factory.id}));
+    });
+
+    this.modalService.show(ConfirmComponent, {initialState: {
+      message: this.RemoveText + ' factory?',
+      confirmed
+    }});
   }
 
   ngOnDestroy() {
