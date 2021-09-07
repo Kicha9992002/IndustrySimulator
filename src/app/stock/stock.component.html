@@ -6,26 +6,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr *ngFor="let product of products">
             <td scope="row">
-                <img src="assets/products/apples.svg" alt="apple">
-                apples
+                <img src="{{product.imgPath}}" alt="{{product.name}}">
+                {{product.name}}
             </td>
-            <td>0 (+0)</td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <img src="assets/products/cherries.svg" alt="cherry">
-                cherries
-            </td>
-            <td>0 (+0)</td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <img src="assets/products/logs.svg" alt="log">
-                logs
-            </td>
-            <td>0 (+0)</td>
+            <td>{{product.amount}} (+0)</td>
         </tr>
     </tbody>
 </table>
