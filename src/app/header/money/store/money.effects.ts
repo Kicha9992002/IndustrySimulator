@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { debounceTime, filter, map, tap, withLatestFrom } from 'rxjs/operators';
-import { interval } from 'rxjs';
 
 import * as fromApp from '../../../store/app.reducer';
 import * as MoneyActions from './money.actions';
 import * as ManufacturingActions from '../../../manufacturing/store/manufacturing.actions';
+import * as AppActions from '../../../store/app.actions';
 import { ManufacturingService } from 'src/app/manufacturing/manufactoring.service';
 import { appConfig } from 'src/app/app.config';
 import { PropertyType } from 'src/app/shared/factory.model';
@@ -57,7 +57,8 @@ export class MoneyEffects {
     );
 
     incomeMoney$ = createEffect(() =>
-        interval(appConfig.incomeInterval).pipe(
+        this.actions$.pipe(
+            ofType(AppActions.gameTick),
             withLatestFrom(this.store.select('manufacturing')),
             map(([action, state]) => {
                 let cost = 0;

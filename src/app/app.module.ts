@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { ManufacturingEffects } from './manufacturing/store/manufacturing.effects';
 import { MoneyComponent } from './header/money/money.component';
 import { MoneyEffects } from './header/money/store/money.effects';
+import { AppEffects } from './store/app.effects';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MoneyEffects } from './header/money/store/money.effects';
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([
       ManufacturingEffects,
-      MoneyEffects
+      MoneyEffects,
+      AppEffects
     ]),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot(),
