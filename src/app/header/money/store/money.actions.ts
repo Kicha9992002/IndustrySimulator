@@ -3,9 +3,6 @@ import { createAction, props } from '@ngrx/store';
 export const setMoney = createAction('[Money] Set Money', props<{
     money: number
 }>());
-export const addMoney = createAction('[Money] Add Money', props<{
-    money: number
-}>());
 export const incomeMoney = createAction('[Money] Income Money', props<{
     money: number
 }>());

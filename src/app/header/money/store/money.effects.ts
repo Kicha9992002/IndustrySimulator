@@ -86,7 +86,6 @@ export class MoneyEffects {
     autosaveMoney$ = createEffect(() =>
         this.actions$.pipe(
             ofType(
-                MoneyActions.addMoney,
                 MoneyActions.incomeMoney,
                 MoneyActions.payAddFactorySuccess,
                 MoneyActions.payAddFactorySizeSuccess,
