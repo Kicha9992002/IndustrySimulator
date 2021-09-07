@@ -6,7 +6,7 @@ export const setMoney = createAction('[Money] Set Money', props<{
 export const addMoney = createAction('[Money] Add Money', props<{
     money: number
 }>());
-export const subtractMoney = createAction('[Money] Subtract Money', props<{
+export const incomeMoney = createAction('[Money] Income Money', props<{
     money: number
 }>());
 export const fetchMoney = createAction('[Money] Fetch Money');

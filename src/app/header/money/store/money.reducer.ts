@@ -24,9 +24,9 @@ const _moneyReducer = createReducer(
         money: state.money + action.money
     })),
 
-    on(MoneyActions.subtractMoney, (state, action) => ({
+    on(MoneyActions.incomeMoney, (state, action) => ({
         ...state,
-        money: state.money - action.money
+        money: state.money + action.money
     })),
 
     on(MoneyActions.payAddFactorySuccess, (state, action) => ({

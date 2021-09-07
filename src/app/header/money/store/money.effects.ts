@@ -61,12 +61,11 @@ export class MoneyEffects {
             ofType(AppActions.gameTick),
             withLatestFrom(this.store.select('manufacturing')),
             map(([action, state]) => {
-                let cost = 0;
-
+                let income = 0;
                 for (const factory of state.factories) {
-                    cost += this.manufacturingService.getFactoryRunningCost(factory);
+                    income -= this.manufacturingService.getFactoryRunningCost(factory);
                 }
-                return MoneyActions.subtractMoney({money: cost});
+                return MoneyActions.incomeMoney({money: income});
             })
         )
     );
@@ -88,7 +87,7 @@ export class MoneyEffects {
         this.actions$.pipe(
             ofType(
                 MoneyActions.addMoney,
-                MoneyActions.subtractMoney,
+                MoneyActions.incomeMoney,
                 MoneyActions.payAddFactorySuccess,
                 MoneyActions.payAddFactorySizeSuccess,
                 MoneyActions.receiveDeleteFactorySuccess
