@@ -17,6 +17,7 @@ import { ManufacturingEffects } from './manufacturing/store/manufacturing.effect
 import { MoneyComponent } from './header/money/money.component';
 import { MoneyEffects } from './header/money/store/money.effects';
 import { AppEffects } from './store/app.effects';
+import { StockEffects } from './stock/store/stock.effects';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AppEffects } from './store/app.effects';
     EffectsModule.forRoot([
       ManufacturingEffects,
       MoneyEffects,
-      AppEffects
+      AppEffects,
+      StockEffects
     ]),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot(),
