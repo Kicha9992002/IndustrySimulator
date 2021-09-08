@@ -1,4 +1,4 @@
-import { Location } from './shared/factory.model';
+import { Location } from "./shared/location.model";
 
 interface IAppConfig {
     manufacturing: {

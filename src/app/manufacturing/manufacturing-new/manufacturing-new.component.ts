@@ -3,10 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { map, take, tap } from 'rxjs/operators';
 
-import { Factory, FactoryType, Location, PropertyType } from 'src/app/shared/factory.model';
+import { Factory, FactoryType, PropertyType } from 'src/app/shared/factory.model';
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from '../store/manufacturing.actions';
 import { appConfig } from '../../app.config';
+import { Location } from 'src/app/shared/location.model';
 
 @Component({
   selector: 'app-manufacturing-new',

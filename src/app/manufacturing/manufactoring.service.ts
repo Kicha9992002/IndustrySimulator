@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { appConfig } from '../app.config';
 
-import { Factory, Location, PropertyType } from '../shared/factory.model';
+import { Factory, PropertyType } from '../shared/factory.model';
+import { Location } from '../shared/location.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,6 @@
 import { Employee } from './employee.model';
+import { Location } from './location.model';
 import { Product } from './product.model';
-
-export enum Location {
-    Germany = 'Germany',
-    France = 'France'
-}
 
 export enum PropertyType {
     tenant = 'tenant',
