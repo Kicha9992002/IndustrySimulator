@@ -10,6 +10,7 @@ import * as ManufacturingActions from './manufacturing.actions';
 import * as MoneyActions from '../../header/money/store/money.actions';
 import { ManufacturingService } from '../manufactoring.service';
 import { PropertyType } from 'src/app/shared/property-type.model';
+import { appConfig } from 'src/app/app.config';
 
 @Injectable()
 export class ManufacturingEffects {
@@ -134,7 +135,7 @@ export class ManufacturingEffects {
                 ManufacturingActions.addEmployeeSuccess,
                 ManufacturingActions.removeEmployeeSuccess
             ),
-            debounceTime(500),
+            debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('manufacturing')),
             tap(([action, state]) => {
                 localStorage.setItem('factories', JSON.stringify(state.factories));
