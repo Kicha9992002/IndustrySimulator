@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 import { Product } from 'src/app/shared/product.model';
 
 import * as StockActions from './stock.actions';
@@ -20,9 +21,17 @@ const _stockReducer = createReducer(
 
     on(StockActions.incomeProduct, (state, action) => ({
         ...state,
-        products: state.products.map(product =>
-            product.id === action.productId ? {...product, amount: product.amount + action.amount} : product
-        )
+        products: state.products.map(product => {
+            if (product.id === action.productId) {
+                return {
+                    ...product,
+                    amount: product.amount + action.amount,
+                    lastIncome: action.amount
+                };
+            } else {
+                return product;
+            }
+        })
     }))
 );
 

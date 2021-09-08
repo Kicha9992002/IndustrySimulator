@@ -11,7 +11,7 @@
                 <img src="{{product.imgPath}}" alt="{{product.name}}">
                 {{product.name}}
             </td>
-            <td>{{product.amount}} (+0)</td>
+            <td>{{product.amount}} ({{product.lastIncome >= 0 ? '+' : '-'}}{{product.lastIncome}})</td>
         </tr>
     </tbody>
 </table>
