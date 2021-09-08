@@ -8,8 +8,7 @@ export const setFactories = createAction('[Manufacturing] Set Factories', props<
 }>());
 export const fetchFactories = createAction('[Manufacturing] Fetch Factories');
 
-export const addFactory = createAction('[Manufacturing] Add Factory',
-props<{
+export const addFactory = createAction('[Manufacturing] Add Factory', props<{
     factory: Factory
 }>());
 export const addFactorySuccess = createAction('[Manufacturing] Add Factory Success');

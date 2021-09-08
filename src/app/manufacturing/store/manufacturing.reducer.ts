@@ -132,8 +132,8 @@ const _manufacturingReducer = createReducer(
 
     on(ManufacturingActions.deleteFactorySuccess, (state, action) => ({
         ...state,
-        factories: state.factories.filter((factory, _) =>
-        factory.id !== state.removeFactoryIndex
+        factories: state.factories.filter(factory =>
+            factory.id !== state.removeFactoryIndex
         ),
         removeFactoryIndex: -1
     }))
