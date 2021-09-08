@@ -13,6 +13,11 @@ const initialState: State = {
 const _stockReducer = createReducer(
     initialState,
 
+    on(StockActions.setProducts, (state, action) => ({
+        ...state,
+        products: [...action.products]
+    })),
+
     on(StockActions.incomeProduct, (state, action) => ({
         ...state,
         products: state.products.map(product =>

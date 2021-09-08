@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { switchMap, withLatestFrom } from "rxjs/operators";
+import { debounceTime, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 
 import * as fromApp from '../../store/app.reducer';
 import * as AppActions from '../../store/app.actions';
 import * as StockActions from './stock.actions';
 import { Product } from "src/app/shared/product.model";
 import { ManufacturingService } from "src/app/manufacturing/manufactoring.service";
+import { appConfig } from "src/app/app.config";
 
 @Injectable()
 export class StockEffects {
-    $incomeProducts = createEffect(() =>
+    incomeProducts$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AppActions.gameTick),
             withLatestFrom(this.store),
@@ -34,6 +35,28 @@ export class StockEffects {
                 });
             })
         )
+    );
+
+    fetchProducts$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(StockActions.fetchProducts),
+            map(() => JSON.parse(localStorage.getItem('products'))),
+            map(products => {
+                return StockActions.setProducts({products});
+            })
+        )
+    );
+
+    autosaveProducts$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(StockActions.incomeProduct),
+            debounceTime(appConfig.autoSaveDebounceTime),
+            withLatestFrom(this.store.select('stock')),
+            tap(([action, state]) => {
+                localStorage.setItem('products', JSON.stringify(state.products));
+            })
+        ),
+        {dispatch: false}
     );
 
     constructor(private actions$: Actions,
