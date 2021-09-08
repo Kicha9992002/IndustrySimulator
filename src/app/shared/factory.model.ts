@@ -1,11 +1,7 @@
 import { Employee } from './employee.model';
 import { Location } from './location.model';
 import { Product } from './product.model';
-
-export enum PropertyType {
-    tenant = 'tenant',
-    owner = 'owner'
-}
+import { PropertyType } from './property-type.model';
 
 export class FactoryType {
     static readonly appleOrchard = new FactoryType(

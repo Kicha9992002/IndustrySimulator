@@ -9,7 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from './manufacturing.actions';
 import * as MoneyActions from '../../header/money/store/money.actions';
 import { ManufacturingService } from '../manufactoring.service';
-import { PropertyType } from 'src/app/shared/factory.model';
+import { PropertyType } from 'src/app/shared/property-type.model';
 
 @Injectable()
 export class ManufacturingEffects {

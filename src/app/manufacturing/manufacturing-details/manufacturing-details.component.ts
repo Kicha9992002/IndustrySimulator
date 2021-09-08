@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
-import { Factory, PropertyType } from 'src/app/shared/factory.model';
+import { Factory } from 'src/app/shared/factory.model';
 import { ManufacturingService } from '../manufactoring.service';
 import * as fromApp from '../../store/app.reducer';
 import * as ManufacturingActions from '../store/manufacturing.actions';
 import { Employee } from 'src/app/shared/employee.model';
 import { appConfig } from 'src/app/app.config';
 import { ConfirmComponent } from 'src/app/shared/confirm/confirm.component';
+import { PropertyType } from 'src/app/shared/property-type.model';
 
 @Component({
   selector: 'app-manufacturing-details',

@@ -1,9 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { Factory, FactoryType, PropertyType } from 'src/app/shared/factory.model';
+import { Factory, FactoryType } from 'src/app/shared/factory.model';
 import * as ManufacturingActions from './manufacturing.actions';
 import { Employee } from 'src/app/shared/employee.model';
 import { Location } from 'src/app/shared/location.model';
+import { PropertyType } from 'src/app/shared/property-type.model';
 
 export interface State {
     factories: Factory[];
