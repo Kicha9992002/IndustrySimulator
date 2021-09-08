@@ -5,10 +5,12 @@ import * as MoneyActions from './money.actions';
 
 export interface State {
     money: number;
+    lastIncome: number;
 }
 
 const initialState: State = {
-    money: appConfig.startMoney
+    money: appConfig.startMoney,
+    lastIncome: 0
 };
 
 const _moneyReducer = createReducer(
@@ -21,7 +23,8 @@ const _moneyReducer = createReducer(
 
     on(MoneyActions.incomeMoney, (state, action) => ({
         ...state,
-        money: state.money + action.money
+        money: state.money + action.money,
+        lastIncome: action.money
     })),
 
     on(MoneyActions.payAddFactorySuccess, (state, action) => ({
