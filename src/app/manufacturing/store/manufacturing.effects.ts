@@ -59,8 +59,10 @@ export class ManufacturingEffects {
             ofType(MoneyActions.receiveDeleteFactorySuccess),
             withLatestFrom(this.store.select('manufacturing')),
             map(([action, state]) => {
-                const factory = state.factories.find(factory => factory.id === state.removeFactoryIndex);
-                const successText = factory.propertyType === PropertyType.owner ? 'Fabrik verkauft' : 'Miete für Fabrik beendet';
+                const successText = state.factories
+                    .filter(factory => factory.id === state.removeFactoryIndex)
+                    .map(factory => factory.propertyType === PropertyType.owner ? 'Fabrik verkauft' : 'Miete für Fabrik beendet')
+                    [0];
                 this.toastr.success(successText);
 
                 return ManufacturingActions.deleteFactorySuccess();
@@ -71,9 +73,7 @@ export class ManufacturingEffects {
     deleteFactorySuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ManufacturingActions.deleteFactorySuccess),
-            tap(() => {
-                this.router.navigate(['/manufacturing']);
-            })
+            tap(() => this.router.navigate(['/manufacturing']))
         ),
         {dispatch: false}
     );
@@ -116,13 +116,9 @@ export class ManufacturingEffects {
     fetchFactories$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ManufacturingActions.fetchFactories),
-            map(() => {
-                return JSON.parse(localStorage.getItem('factories'));
-            }),
+            map(() => JSON.parse(localStorage.getItem('factories'))),
             filter(factories => factories),
-            map(factories => {
-                return ManufacturingActions.setFactories({factories});
-            })
+            map(factories => ManufacturingActions.setFactories({factories}))
         )
     );
 
@@ -137,9 +133,7 @@ export class ManufacturingEffects {
             ),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('manufacturing')),
-            tap(([action, state]) => {
-                localStorage.setItem('factories', JSON.stringify(state.factories));
-            })
+            tap(([action, state]) => localStorage.setItem('factories', JSON.stringify(state.factories)))
         ),
         {dispatch: false}
     );

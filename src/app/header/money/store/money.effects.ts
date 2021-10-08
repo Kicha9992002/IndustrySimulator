@@ -127,13 +127,9 @@ export class MoneyEffects {
     fetchMoney$ = createEffect(() =>
         this.actions$.pipe(
             ofType(MoneyActions.fetchMoney),
-            map(() => {
-                return JSON.parse(localStorage.getItem('money'));
-            }),
+            map(() => JSON.parse(localStorage.getItem('money'))),
             filter(money => money),
-            map(money => {
-                return MoneyActions.setMoney({money});
-            })
+            map(money => MoneyActions.setMoney({money}))
         )
     );
 
@@ -150,9 +146,7 @@ export class MoneyEffects {
             ),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('money')),
-            tap(([action, state]) => {
-                localStorage.setItem('money', JSON.stringify(state.money));
-            })
+            tap(([action, state]) => localStorage.setItem('money', JSON.stringify(state.money)))
         ),
         {dispatch: false}
     );

@@ -42,11 +42,7 @@ export class ManufacturingDetailsComponent implements OnInit, OnDestroy {
           this.id = params.id;
           return this.store.select('manufacturing');
         }),
-        map(manufacturingState => {
-          return manufacturingState.factories.find((factory, index) => {
-            return index == this.id;
-          });
-        })
+        map(manufacturingState => manufacturingState.factories.find((factory, index) => index == this.id))
       ).subscribe(factory => {
         if (factory) {
           this.factory = factory;

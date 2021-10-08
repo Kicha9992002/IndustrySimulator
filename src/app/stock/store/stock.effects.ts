@@ -43,9 +43,7 @@ export class StockEffects {
         this.actions$.pipe(
             ofType(StockActions.fetchProducts),
             map(() => JSON.parse(localStorage.getItem('products'))),
-            map(products => {
-                return StockActions.setProducts({products});
-            })
+            map(products => StockActions.setProducts({products}))
         )
     );
 
@@ -54,9 +52,7 @@ export class StockEffects {
             ofType(StockActions.incomeProducts),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('stock')),
-            tap(([action, state]) => {
-                localStorage.setItem('products', JSON.stringify(state.products));
-            })
+            tap(([action, state]) => localStorage.setItem('products', JSON.stringify(state.products)))
         ),
         {dispatch: false}
     );

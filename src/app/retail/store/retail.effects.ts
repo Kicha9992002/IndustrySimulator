@@ -59,8 +59,10 @@ export class RetailEffects {
             ofType(MoneyActions.receiveDeleteRetailerSuccess),
             withLatestFrom(this.store.select('retail')),
             map(([action, state]) => {
-                const retailer = state.retailers.find(retailer => retailer.id === state.removeRetailerIndex);
-                const successText = retailer.propertyType === PropertyType.owner ? 'Einzelhändler verkauft' : 'Miete für Einzelhändler beendet';
+                const successText = state.retailers
+                    .filter(retailer => retailer.id === state.removeRetailerIndex)
+                    .map(retailer => retailer.propertyType === PropertyType.owner ? 'Einzelhändler verkauft' : 'Miete für Einzelhändler beendet')
+                    [0];
                 this.toastr.success(successText);
 
                 return RetailActions.deleteRetailerSuccess();
@@ -71,9 +73,7 @@ export class RetailEffects {
     deleteRetailerSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RetailActions.deleteRetailerSuccess),
-            tap(() => {
-                this.router.navigate(['/retail']);
-            })
+            tap(() => this.router.navigate(['/retail']))
         ),
         {dispatch: false}
     );
@@ -133,9 +133,7 @@ export class RetailEffects {
             ),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('retail')),
-            tap(([action, state]) => {
-                localStorage.setItem('retailers', JSON.stringify(state.retailers));
-            })
+            tap(([action, state]) => localStorage.setItem('retailers', JSON.stringify(state.retailers)))
         ),
         {dispatch: false}
     );
