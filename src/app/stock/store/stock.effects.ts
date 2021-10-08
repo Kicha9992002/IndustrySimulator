@@ -18,39 +18,23 @@ export class StockEffects {
             ofType(AppActions.gameTick),
             withLatestFrom(this.store),
             switchMap(([action, state]) => {
-                let products: Product[] = [];
-                for (const factory of state.manufacturing.factories) {
-                    for (const product of factory.factoryType.products) {
-                        const index = products.findIndex((pr) => pr.id === product.id);
-                        const addAmount = this.manufacturingService.getFactoryOutput(factory);
-                        if (index === -1) {
-                            products.push({...product, amount: addAmount});
-                        } else {
-                            products[index] = {...product, amount: products[index].amount + addAmount};
-                        }
-                    }
-                }
-
-                for (const retailer of state.retail.retailers) {
-                    for (const product of retailer.retailerType.products) {
-                        const index = products.findIndex((pr) => pr.id === product.id);
-                        const subtractAmount = this.retailService.getRetailerInput(retailer);
-                        if (index === -1) {
-                            products.push({...product, amount: -subtractAmount});
-                        } else {
-                            products[index] = {...product, amount: products[index].amount - subtractAmount};
-                        }
-                    }
-                }
-
-                products = products.map(product => {
-                    const productStockAmount = state.stock.products.find(pr => pr.id == product.id).amount;
-                    return productStockAmount + product.amount >= 0  ? product : {...product, amount: 0};
-                });
-
-                return products.map(product => {
-                    return StockActions.incomeProduct({productId: product.id, amount: product.amount})
-                });
+                return state.manufacturing.factories
+                    .reduce<Product[]>((products, factory) => {
+                        return products.concat(factory.factoryType.products.map(product => {
+                            return {...product, amount: this.manufacturingService.getFactoryOutput(factory)};
+                        }));
+                    }, [])
+                    .concat(state.retail.retailers
+                        .reduce<Product[]>((products, retailer) => {
+                            return products.concat(retailer.retailerType.products.map(product => {
+                                return {...product, amount: -this.retailService.getRetailerInput(retailer)};
+                            }));
+                        }, []))
+                    .reduce<Product[]>((result, product) => {
+                        return result[product.id] = {...product, amount: (result[product.id]?.amount || 0) + product.amount}, result; // group by product.id
+                    }, [])
+                    .filter(product => product.amount != 0 && state.stock.products.find(pr => pr.id == product.id).amount + product.amount >= 0)
+                    .map(product => StockActions.incomeProduct({product}));
             })
         )
     );

@@ -22,11 +22,11 @@ const _stockReducer = createReducer(
     on(StockActions.incomeProduct, (state, action) => ({
         ...state,
         products: state.products.map(product => {
-            if (product.id === action.productId) {
+            if (product.id === action.product.id) {
                 return {
                     ...product,
-                    amount: product.amount + action.amount,
-                    lastIncome: action.amount
+                    amount: product.amount + action.product.amount,
+                    lastIncome: action.product.amount
                 };
             } else {
                 return product;
