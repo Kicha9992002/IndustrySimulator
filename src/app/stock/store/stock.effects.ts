@@ -17,8 +17,8 @@ export class StockEffects {
         this.actions$.pipe(
             ofType(AppActions.gameTick),
             withLatestFrom(this.store),
-            switchMap(([action, state]) => {
-                return state.manufacturing.factories
+            map(([action, state]) => {
+                const products =  state.manufacturing.factories
                     .reduce<Product[]>((products, factory) => {
                         return products.concat(factory.factoryType.products.map(product => {
                             return {...product, amount: this.manufacturingService.getFactoryOutput(factory)};
@@ -33,8 +33,8 @@ export class StockEffects {
                     .reduce<Product[]>((result, product) => {
                         return result[product.id] = {...product, amount: (result[product.id]?.amount || 0) + product.amount}, result; // group by product.id
                     }, [])
-                    .filter(product => product.amount != 0 && state.stock.products.find(pr => pr.id == product.id).amount + product.amount >= 0)
-                    .map(product => StockActions.incomeProduct({product}));
+                    .filter(product => product.amount != 0 && state.stock.products.find(pr => pr.id == product.id).amount + product.amount >= 0);
+                return StockActions.incomeProducts({products});
             })
         )
     );
@@ -51,7 +51,7 @@ export class StockEffects {
 
     autosaveProducts$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(StockActions.incomeProduct),
+            ofType(StockActions.incomeProducts),
             debounceTime(appConfig.autoSaveDebounceTime),
             withLatestFrom(this.store.select('stock')),
             tap(([action, state]) => {

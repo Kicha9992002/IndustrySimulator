@@ -19,18 +19,14 @@ const _stockReducer = createReducer(
         products: [...action.products]
     })),
 
-    on(StockActions.incomeProduct, (state, action) => ({
+    on(StockActions.incomeProducts, (state, action) => ({
         ...state,
         products: state.products.map(product => {
-            if (product.id === action.product.id) {
-                return {
-                    ...product,
-                    amount: product.amount + action.product.amount,
-                    lastIncome: action.product.amount
-                };
-            } else {
-                return product;
-            }
+            return action.products
+                ?.filter(prod => prod.id === product.id)
+                ?.map(prod => ({...prod, amount: product.amount + prod.amount, lastIncome: prod.amount}))
+                ?.[0]
+            || product;
         })
     }))
 );
