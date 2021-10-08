@@ -1,1 +1,18 @@
-<p>retail works!</p>
+<div class="mb-3">
+    <div class="btn-group" dropdown #dropdown="bs-dropdown" [insideClick]="true">
+        <button
+            class="btn btn-success dropdown-toggle"
+            dropdownToggle>
+            <span class="material-icons">add</span>
+        </button>
+        <ul 
+            *dropdownMenu 
+            class="dropdown-menu">
+            <li role="menuitem">
+                <app-retail-new (close)="dropdown.hide()"></app-retail-new>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<app-retail-list></app-retail-list>

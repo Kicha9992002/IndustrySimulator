@@ -1,0 +1,23 @@
+<div>
+    <h1>{{retailer?.retailerType.name}}</h1>
+    <div>
+        <div><span class="material-icons">area_chart</span> {{retailer?.size}}</div>
+        <button class="btn btn-secondary" (click)="addSize()">
+            <div><span class="material-icons">area_chart</span> +{{AreaAddSize}}</div>
+            <div><span class="material-icons">euro</span> {{AreaAddSizeCost | currency:'':''}}</div>
+        </button>
+    </div>
+    <div>
+        <div><span class="material-icons">group</span> {{retailer?.employees.length}} / {{maxEmployees}}</div>
+        <button class="btn btn-secondary" (click)="addEmployee()">
+            <span class="material-icons">person_add</span>
+        </button>
+        <button class="btn btn-secondary" (click)="removeEmployee()">
+            <span class="material-icons">person_remove</span>
+        </button>
+    </div>
+    <div><span class="material-icons">precision_manufacturing</span> {{input}}/tick</div>
+    <div><span class="material-icons">euro</span> {{runningIncome | currency:'':''}}/tick</div>
+
+    <div><button class="btn btn-danger" (click)="deleteRetailer()">{{RemoveText}}</button></div>
+</div>

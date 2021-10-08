@@ -18,6 +18,7 @@ import { MoneyComponent } from './header/money/money.component';
 import { MoneyEffects } from './header/money/store/money.effects';
 import { AppEffects } from './store/app.effects';
 import { StockEffects } from './stock/store/stock.effects';
+import { RetailEffects } from './retail/store/retail.effects';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { StockEffects } from './stock/store/stock.effects';
       ManufacturingEffects,
       MoneyEffects,
       AppEffects,
-      StockEffects
+      StockEffects,
+      RetailEffects
     ]),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot(),

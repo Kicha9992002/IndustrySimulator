@@ -1,0 +1,45 @@
+<div class="m-3" style="width: 200px;">
+    <form
+        [formGroup]="addRetailerForm"
+        (ngSubmit)="onAddRetailer()">
+        <div class="form-floating mb-3">
+            <select
+                id="retailerType"
+                formControlName="retailerType"
+                #retailerType
+                class="form-select">
+                <option *ngFor="let retailerType of retailerTypes" [ngValue]="retailerType">{{retailerType}}</option>
+            </select>
+            <label for="retailerType" class="form-label">Retailer type</label>
+        </div>
+        <div class="form-floating mb-3">
+            <select
+                type="text"
+                id="location"
+                formControlName="location"
+                #location
+                class="form-select">
+                <option *ngFor="let location of locations" [ngValue]="location">{{location}}</option>
+            </select>
+            <label for="location" class="form-label">Location</label>
+        </div>
+        <div class="form-floating mb-3">
+            <select
+                type="text"
+                id="propertyType"
+                formControlName="propertyType"
+                #propertyType
+                class="form-select">
+                <option *ngFor="let propertyType of propertyTypes" [ngValue]="propertyType">{{propertyType}}</option>
+            </select>
+            <label for="propertyType" class="form-label">Property type</label>
+        </div>
+        <div class="form-floating mb-3">
+            <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!addRetailerForm.valid"
+            >Add Retailer</button>
+        </div>
+    </form>
+</div>

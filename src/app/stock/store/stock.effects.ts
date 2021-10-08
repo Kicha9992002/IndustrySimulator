@@ -9,6 +9,7 @@ import * as StockActions from './stock.actions';
 import { Product } from "src/app/shared/product.model";
 import { ManufacturingService } from "src/app/manufacturing/manufactoring.service";
 import { appConfig } from "src/app/app.config";
+import { RetailService } from "src/app/retail/retail.service";
 
 @Injectable()
 export class StockEffects {
@@ -29,6 +30,23 @@ export class StockEffects {
                         }
                     }
                 }
+
+                for (const retailer of state.retail.retailers) {
+                    for (const product of retailer.retailerType.products) {
+                        const index = products.findIndex((pr) => pr.id === product.id);
+                        const subtractAmount = this.retailService.getRetailerInput(retailer);
+                        if (index === -1) {
+                            products.push({...product, amount: -subtractAmount});
+                        } else {
+                            products[index] = {...product, amount: products[index].amount - subtractAmount};
+                        }
+                    }
+                }
+
+                products = products.map(product => {
+                    const productStockAmount = state.stock.products.find(pr => pr.id == product.id).amount;
+                    return productStockAmount + product.amount >= 0  ? product : {...product, amount: 0};
+                });
 
                 return products.map(product => {
                     return StockActions.incomeProduct({productId: product.id, amount: product.amount})
@@ -61,5 +79,6 @@ export class StockEffects {
 
     constructor(private actions$: Actions,
         private store: Store<fromApp.AppState>,
-        private manufacturingService: ManufacturingService) {}
+        private manufacturingService: ManufacturingService,
+        private retailService: RetailService) {}
 }
