@@ -63,7 +63,7 @@ const _manufacturingReducer = createReducer(
         editIndex: -1,
         editSize: 0,
         factories: state.factories.map((factory, index) =>
-            index === state.editIndex ? {...factory, size: factory.size + state.editSize} : factory
+            index == state.editIndex ? {...factory, size: factory.size + state.editSize} : factory
         )
     })),
 
